@@ -263,6 +263,14 @@ nav {
   outline: none;
 }
 
+/* Polaroid strip wrapper — invisible en desktop, strip en mobile */
+.polaroids-strip {
+  position: static;
+  width: 0;
+  height: 0;
+  overflow: visible;
+}
+
 /* Polaroid food photos */
 .polaroid {
   position: absolute;
@@ -1071,7 +1079,36 @@ footer a { color: var(--amarillo); text-decoration: none; }
   .features-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; text-align: center; padding: 28px 20px; }
   .hero-logo-mark { width: 100px; height: 100px; }
-  .polaroid { display: none; }
+
+  /* Hero mobile: stage primero, strip de polaroids después */
+  #hero { padding-bottom: 80px; gap: 24px; }
+  .hero-stage { order: 1; }
+
+  .polaroids-strip {
+    order: 2;
+    width: 100%;
+    height: auto;
+    display: flex;
+    overflow-x: auto;
+    gap: 14px;
+    padding: 8px 20px 12px;
+    scrollbar-width: none;
+  }
+  .polaroids-strip::-webkit-scrollbar { display: none; }
+
+  .polaroid {
+    position: static;
+    transform: none;
+    animation: none;
+    flex-shrink: 0;
+    width: 130px;
+    height: 130px;
+  }
+  .polaroid-1 { transform: rotate(-4deg) !important; }
+  .polaroid-2 { transform: rotate(3deg) !important; }
+  .polaroid-3 { transform: rotate(-2deg) !important; }
+  .polaroid-4 { transform: rotate(4deg) !important; }
+  .polaroid:hover { transform: rotate(0deg) scale(1.05) !important; }
 
   /* Hero buttons — apilados y anchos en mobile */
   .hero-btns { flex-direction: column; align-items: center; }
