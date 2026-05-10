@@ -1,14 +1,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --amarillo: #FFD600;
-  --naranja: #E8650A;
-  --rojo: #C8242A;
-  --crema: #FFF8EE;
-  --crema-oscuro: #F5EDDA;
-  --verde-oscuro: #1A3A1A;
-  --texto: #2A1A0A;
-  --blanco: #FFFDF8;
+  --amarillo: #E8A0B0;       /* rosa pastel — bordes suaves, iconos, detalles */
+  --naranja: #C4364A;        /* rojo fuego — CTAs, activos, precios */
+  --rojo: #8C1A2E;           /* vino/borgoña — títulos, headings, marca */
+  --crema: #FFF5F0;          /* crema rosada — fondo principal */
+  --crema-oscuro: #F9E8E5;   /* crema más profunda — secciones alternadas */
+  --verde-oscuro: #5E0F22;   /* vino oscuro — footer, bordes profundos */
+  --texto: #3D0F1A;          /* vino casi negro — texto del cuerpo */
+  --blanco: #FFFBF9;         /* blanco cálido */
 }
 
 html { scroll-behavior: smooth; }
@@ -29,7 +29,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 14px 40px;
-  background: rgba(255, 248, 238, 0.95);
+  background: rgba(255, 245, 240, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 2px solid var(--amarillo);
 }
@@ -105,9 +105,9 @@ nav {
   overflow: hidden;
   padding: 100px 40px 60px;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,214,0,0.08) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(255,214,0,0.06) 0%, transparent 50%),
-    linear-gradient(135deg, #7A1922 0%, #8C1F2A 50%, #6E1620 100%);
+    radial-gradient(circle at 20% 20%, rgba(255,160,176,0.10) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255,160,176,0.07) 0%, transparent 50%),
+    linear-gradient(135deg, #7A1530 0%, #9B1E3C 50%, #6B0F26 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,13 +163,13 @@ nav {
   vertical-align: middle;
 }
 .hero-logo-mark {
-  width: 130px;
-  height: 130px;
+  width: 190px;
+  height: 190px;
   border-radius: 50%;
   background: var(--crema);
   padding: 8px;
   object-fit: contain;
-  box-shadow: 0 12px 36px rgba(0,0,0,0.35), 0 0 0 4px rgba(255,214,0,0.5);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35), 0 0 0 5px rgba(232,160,176,0.7);
   margin-bottom: 26px;
   animation: fadeDown 0.7s ease 0.1s both;
 }
@@ -200,7 +200,7 @@ nav {
 .hero-title-divider span {
   flex: 0 0 80px;
   height: 1px;
-  background: rgba(255,248,238,0.5);
+  background: rgba(255,245,240,0.5);
 }
 .hero-title-divider em {
   font-family: 'Pacifico', cursive;
@@ -210,7 +210,7 @@ nav {
 }
 .hero-sub {
   font-size: 1.05rem;
-  color: rgba(255,248,238,0.85);
+  color: rgba(255,245,240,0.85);
   max-width: 540px;
   line-height: 1.6;
   margin-bottom: 32px;
@@ -254,11 +254,11 @@ nav {
   border-radius: 50px;
   font-weight: 600;
   font-size: 1rem;
-  border: 2px solid rgba(255,248,238,0.5);
+  border: 2px solid rgba(255,245,240,0.5);
   transition: background 0.2s, border-color 0.2s;
 }
 .btn-menu:hover, .btn-menu:focus-visible {
-  background: rgba(255,248,238,0.1);
+  background: rgba(255,245,240,0.1);
   border-color: var(--crema);
   outline: none;
 }
@@ -328,11 +328,11 @@ nav {
 .ticker {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  background: var(--amarillo);
-  color: var(--texto);
+  background: var(--rojo);
+  color: var(--crema);
   padding: 14px 0;
   overflow: hidden;
-  border-top: 4px solid var(--texto);
+  border-top: 4px solid var(--verde-oscuro);
   z-index: 4;
 }
 .ticker-track {
@@ -426,7 +426,7 @@ nav {
 .nosotros-text p {
   font-size: 1.05rem;
   line-height: 1.75;
-  color: #4A2C12;
+  color: #5E2035;
   margin-bottom: 20px;
 }
 .features-grid {
@@ -459,7 +459,7 @@ nav {
 }
 .feature-text span {
   font-size: 0.78rem;
-  color: #7A5535;
+  color: #8C4A5E;
 }
 
 /* ── MENÚ ── */
@@ -517,7 +517,7 @@ nav {
 }
 .pizza-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 40px rgba(200,36,42,0.13);
+  box-shadow: 0 12px 40px rgba(140,26,46,0.18);
 }
 .pizza-card-img {
   height: 180px;
@@ -591,7 +591,7 @@ nav {
 .compartir-card.expanded .pizza-desc-wrap { max-height: 160px; }
 .pizza-desc {
   font-size: 0.82rem;
-  color: #7A5535;
+  color: #8C4A5E;
   line-height: 1.6;
   padding: 6px 0 2px;
   border-top: 1px dashed var(--crema-oscuro);
@@ -612,7 +612,7 @@ nav {
 .pizza-price span {
   font-size: 0.85rem;
   font-weight: 400;
-  color: #9A7055;
+  color: #A06070;
 }
 .pizza-order-btn {
   background: var(--amarillo);
@@ -660,7 +660,7 @@ nav {
 }
 .compartir-card p {
   font-size: 0.8rem;
-  color: #9A7055;
+  color: #A06070;
   margin-bottom: 14px;
 }
 .compartir-card .price {
@@ -671,7 +671,7 @@ nav {
 }
 .compartir-note {
   font-size: 0.75rem;
-  color: #9A7055;
+  color: #A06070;
   text-align: center;
   margin-top: 24px;
 }
@@ -682,7 +682,7 @@ nav {
 #promos {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, #fff8ee 0%, #fff2df 100%);
+  background: linear-gradient(160deg, #fff5f0 0%, #fde8ec 100%);
   padding: 80px 40px;
 }
 #promos::before {
@@ -690,8 +690,8 @@ nav {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,214,0,0.14) 0%, transparent 32%),
-    radial-gradient(circle at 80% 20%, rgba(200,36,42,0.10) 0%, transparent 28%);
+    radial-gradient(circle at 20% 20%, rgba(232,160,176,0.22) 0%, transparent 32%),
+    radial-gradient(circle at 80% 20%, rgba(140,26,46,0.12) 0%, transparent 28%);
   pointer-events: none;
 }
 .promos-inner {
@@ -720,13 +720,13 @@ nav {
   transition: transform 0.25s, border-color 0.25s;
 }
 .promo-card:hover {
-  border-color: rgba(232,101,10,0.35);
+  border-color: rgba(196,54,74,0.40);
   transform: translateY(-4px);
 }
 .promo-card-img {
   min-height: 220px;
   overflow: hidden;
-  background: #fdf5ec;
+  background: #fde8ec;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -747,7 +747,7 @@ nav {
   margin-bottom: 10px;
 }
 .promo-desc {
-  color: #7A5535;
+  color: #8C4A5E;
   font-size: 0.95rem;
   margin-bottom: 18px;
   line-height: 1.6;
@@ -762,7 +762,7 @@ nav {
   font-size: 1.1rem;
   font-weight: 400;
   vertical-align: super;
-  color: #7A5535;
+  color: #8C4A5E;
 }
 .promo-cta {
   display: inline-block;
@@ -808,7 +808,7 @@ nav {
 }
 .horarios-text .section-title { margin-bottom: 16px; }
 .horarios-text p {
-  color: #7A5535;
+  color: #8C4A5E;
   line-height: 1.7;
   font-size: 1rem;
 }
@@ -834,7 +834,7 @@ nav {
   display: block;
   font-size: 0.75rem;
   font-weight: 400;
-  color: #9A7055;
+  color: #A06070;
   margin-top: 2px;
 }
 .horario-horas {
@@ -849,7 +849,7 @@ nav {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.75rem;
   font-weight: 400;
-  color: #9A7055;
+  color: #A06070;
 }
 .delivery-banner {
   background: var(--amarillo);
@@ -867,7 +867,7 @@ nav {
 }
 .delivery-banner span {
   font-size: 0.82rem;
-  color: #5A3A10;
+  color: #6E2A3A;
 }
 
 /* ── CONTACTO ── */
@@ -882,7 +882,7 @@ nav {
 }
 .contacto-inner .section-title { margin-bottom: 12px; }
 .contacto-inner > p {
-  color: #7A5535;
+  color: #8C4A5E;
   font-size: 1.05rem;
   margin-bottom: 40px;
   line-height: 1.7;
@@ -930,7 +930,7 @@ nav {
 }
 .contact-card p {
   font-size: 0.82rem;
-  color: #9A7055;
+  color: #A06070;
 }
 .contact-card.wa .contact-card-icon { background: #E8F9F0; }
 .contact-card.ig .contact-card-icon { background: #FEF0F5; }
@@ -1020,7 +1020,7 @@ footer a { color: var(--amarillo); text-decoration: none; }
 .skeleton-img {
   width: 100%;
   height: 180px;
-  background: linear-gradient(90deg, #e8dcc8 25%, #f5edd8 50%, #e8dcc8 75%);
+  background: linear-gradient(90deg, #f0d0da 25%, #f9e2ea 50%, #f0d0da 75%);
   background-size: 600px 100%;
   animation: shimmer 1.4s ease-in-out infinite;
 }
@@ -1033,7 +1033,7 @@ footer a { color: var(--amarillo); text-decoration: none; }
 .skeleton-line {
   height: 12px;
   border-radius: 6px;
-  background: linear-gradient(90deg, #e8dcc8 25%, #f5edd8 50%, #e8dcc8 75%);
+  background: linear-gradient(90deg, #f0d0da 25%, #f9e2ea 50%, #f0d0da 75%);
   background-size: 600px 100%;
   animation: shimmer 1.4s ease-in-out infinite;
 }
@@ -1050,7 +1050,7 @@ footer a { color: var(--amarillo); text-decoration: none; }
     position: absolute;
     top: 100%;
     left: 0; right: 0;
-    background: rgba(255, 248, 238, 0.98);
+    background: rgba(255, 245, 240, 0.98);
     flex-direction: column;
     gap: 0;
     border-bottom: 2px solid var(--amarillo);
@@ -1078,7 +1078,7 @@ footer a { color: var(--amarillo); text-decoration: none; }
   .promos-grid { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; text-align: center; padding: 28px 20px; }
-  .hero-logo-mark { width: 100px; height: 100px; }
+  .hero-logo-mark { width: 150px; height: 150px; }
 
   /* Hero mobile: stage primero, strip de polaroids después */
   #hero { padding-bottom: 80px; gap: 24px; }
@@ -1129,7 +1129,7 @@ footer a { color: var(--amarillo); text-decoration: none; }
 /* ── EXTRA SMALL (480px) ── */
 @media (max-width: 480px) {
   #hero { padding: 80px 20px 60px; }
-  .hero-logo-mark { width: 90px; height: 90px; }
+  .hero-logo-mark { width: 130px; height: 130px; }
   .hero-sub { font-size: 0.95rem; margin-bottom: 24px; }
   .hero-title-divider span { flex-basis: 30px; }
 

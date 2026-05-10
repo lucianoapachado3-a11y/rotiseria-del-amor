@@ -6,7 +6,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(42, 26, 10, 0.65);
+  background: rgba(61, 15, 26, 0.65);
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -21,7 +21,7 @@
 
 /* Card */
 .amodal-card {
-  background: #FFF8EE;
+  background: #FFF5F0;
   border-radius: 24px;
   width: 100%;
   max-width: 430px;
@@ -50,7 +50,7 @@
   font-size: 1.4rem;
   line-height: 1;
   cursor: pointer;
-  color: #9A7055;
+  color: #A06070;
   width: 30px;
   height: 30px;
   display: flex;
@@ -59,7 +59,7 @@
   border-radius: 8px;
   transition: background 0.2s;
 }
-.amodal-close:hover { background: #F5EDDA; }
+.amodal-close:hover { background: #F9E8E5; }
 
 /* ── LOGIN ── */
 .amodal-login-header {
@@ -70,12 +70,12 @@
 .amodal-login-header h3 {
   font-family: 'Playfair Display', serif;
   font-size: 1.35rem;
-  color: #C8242A;
+  color: #8C1A2E;
   margin-bottom: 4px;
 }
 .amodal-login-header p {
   font-size: 0.82rem;
-  color: #9A7055;
+  color: #A06070;
 }
 .al-error-msg {
   font-size: 0.82rem;
@@ -91,12 +91,12 @@
   gap: 10px;
   margin-bottom: 18px;
   padding-bottom: 14px;
-  border-bottom: 2px solid #F5EDDA;
+  border-bottom: 2px solid #F9E8E5;
 }
 .amodal-topbar h3 {
   font-family: 'Playfair Display', serif;
   font-size: 1.15rem;
-  color: #C8242A;
+  color: #8C1A2E;
   flex: 1;
 }
 
@@ -109,19 +109,19 @@
 .admin-inner-tab {
   padding: 7px 18px;
   border-radius: 50px;
-  border: 2px solid #F5EDDA;
-  background: #F5EDDA;
+  border: 2px solid #F9E8E5;
+  background: #F9E8E5;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.83rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  color: #2A1A0A;
+  color: #3D0F1A;
 }
 .admin-inner-tab.active,
 .admin-inner-tab:hover {
-  background: #E8650A;
-  border-color: #E8650A;
+  background: #C4364A;
+  border-color: #C4364A;
   color: white;
 }
 
@@ -129,7 +129,7 @@
 .admin-form-subtitle {
   font-family: 'Playfair Display', serif;
   font-size: 1rem;
-  color: #2A1A0A;
+  color: #3D0F1A;
   margin-bottom: 14px;
 }
 .admin-form { display: flex; flex-direction: column; gap: 13px; }
@@ -139,10 +139,10 @@
 .afield label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #2A1A0A;
+  color: #3D0F1A;
   font-family: 'DM Sans', sans-serif;
 }
-.ahint { font-weight: 400; color: #9A7055; }
+.ahint { font-weight: 400; color: #A06070; }
 
 .afield input[type="text"],
 .afield input[type="email"],
@@ -150,22 +150,22 @@
 .afield input[type="number"],
 .afield select {
   padding: 9px 12px;
-  border: 1.5px solid #E2D8CC;
+  border: 1.5px solid #E8D0D5;
   border-radius: 10px;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.88rem;
-  color: #2A1A0A;
+  color: #3D0F1A;
   background: white;
   transition: border-color 0.2s;
 }
 .afield input:focus,
 .afield select:focus {
   outline: none;
-  border-color: #E8650A;
+  border-color: #C4364A;
 }
 .afield input[type="file"] {
   font-size: 0.82rem;
-  color: #7A5535;
+  color: #8C4A5E;
   padding: 4px 0;
 }
 .admin-img-preview {
@@ -174,13 +174,13 @@
   max-height: 110px;
   border-radius: 10px;
   object-fit: cover;
-  border: 2px solid #E2D8CC;
+  border: 2px solid #E8D0D5;
 }
 .aform-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
 
 /* ── BUTTONS ── */
 .amodal-btn-primary {
-  background: #E8650A;
+  background: #C4364A;
   color: white;
   border: none;
   padding: 10px 22px;
@@ -191,13 +191,13 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-.amodal-btn-primary:hover   { background: #C8242A; }
+.amodal-btn-primary:hover   { background: #8C1A2E; }
 .amodal-btn-primary:disabled { background: #ccc; cursor: not-allowed; }
 
 .amodal-btn-secondary {
   background: transparent;
-  color: #2A1A0A;
-  border: 1.5px solid #E2D8CC;
+  color: #3D0F1A;
+  border: 1.5px solid #E8D0D5;
   padding: 9px 18px;
   border-radius: 50px;
   font-family: 'DM Sans', sans-serif;
@@ -206,7 +206,7 @@
   cursor: pointer;
   transition: border-color 0.2s;
 }
-.amodal-btn-secondary:hover { border-color: #2A1A0A; }
+.amodal-btn-secondary:hover { border-color: #3D0F1A; }
 
 .amodal-btn-sm { padding: 5px 12px !important; font-size: 0.75rem !important; }
 
@@ -217,10 +217,10 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #E8650A;
+  color: #C4364A;
   margin-bottom: 8px;
   padding-bottom: 6px;
-  border-bottom: 1px solid #E2D8CC;
+  border-bottom: 1px solid #E8D0D5;
   font-family: 'DM Sans', sans-serif;
 }
 .admin-lista-items    { display: flex; flex-direction: column; gap: 7px; }
@@ -228,7 +228,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #F5EDDA;
+  background: #F9E8E5;
   border-radius: 10px;
   padding: 9px 12px;
 }
@@ -245,7 +245,7 @@
   width: 42px;
   height: 42px;
   border-radius: 8px;
-  background: #E2D8CC;
+  background: #E8D0D5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -260,41 +260,41 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #2A1A0A;
+  color: #3D0F1A;
 }
 .admin-item-info span {
   font-size: 0.75rem;
-  color: #9A7055;
+  color: #A06070;
   font-family: 'DM Sans', sans-serif;
 }
 .admin-item-actions { display: flex; gap: 5px; flex-shrink: 0; }
 
 .admin-btn-edit {
-  background: #FFD600;
+  background: #E8A0B0;
   border: none;
   border-radius: 20px;
   padding: 4px 11px;
   font-size: 0.73rem;
   font-weight: 600;
   cursor: pointer;
-  color: #2A1A0A;
+  color: #3D0F1A;
   font-family: 'DM Sans', sans-serif;
   transition: background 0.2s;
 }
-.admin-btn-edit:hover { background: #E8650A; color: white; }
+.admin-btn-edit:hover { background: #C4364A; color: white; }
 
 .admin-btn-toggle {
   background: transparent;
-  border: 1.5px solid #E2D8CC;
+  border: 1.5px solid #E8D0D5;
   border-radius: 20px;
   padding: 3px 10px;
   font-size: 0.73rem;
   cursor: pointer;
-  color: #7A5535;
+  color: #8C4A5E;
   font-family: 'DM Sans', sans-serif;
   transition: border-color 0.2s;
 }
-.admin-btn-toggle:hover { border-color: #E8650A; color: #E8650A; }
+.admin-btn-toggle:hover { border-color: #C4364A; color: #C4364A; }
 
 .admin-btn-delete {
   background: transparent;
@@ -322,7 +322,7 @@
   gap: 7px;
 }
 .admin-fab {
-  background: #2A1A0A;
+  background: #3D0F1A;
   color: rgba(255,255,255,0.9);
   border: none;
   padding: 13px 26px;
@@ -335,7 +335,7 @@
   transition: background 0.2s, transform 0.2s;
 }
 .admin-fab:hover {
-  background: #E8650A;
+  background: #C4364A;
   transform: translateY(-2px);
 }
 

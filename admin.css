@@ -1,14 +1,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --rojo: #C8242A;
-  --naranja: #E8650A;
-  --amarillo: #FFD600;
-  --texto: #2A1A0A;
-  --bg: #F0EDE8;
-  --white: #FFFFFF;
-  --border: #E2D8CC;
-  --error: #D32F2F;
+  --rojo: #8C1A2E;
+  --naranja: #C4364A;
+  --amarillo: #E8A0B0;
+  --texto: #3D0F1A;
+  --bg: #F9E8E5;
+  --white: #FFFBF9;
+  --border: #E8D0D5;
+  --error: #C4364A;
 }
 
 body {
