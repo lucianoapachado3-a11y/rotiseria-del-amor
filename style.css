@@ -385,6 +385,28 @@ nav {
   to   { transform: translateX(-50%); }
 }
 
+/* ── CARTA DIVIDER ── */
+.carta-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 60px;
+  background: linear-gradient(to bottom, var(--crema), var(--blanco-crema));
+}
+.carta-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--dorado), transparent);
+}
+.carta-divider span {
+  font-family: 'Cinzel', serif;
+  color: var(--dorado);
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
 /* ── SECTION DECORATORS ── */
 .section-tag {
   display: inline-block;
@@ -395,10 +417,12 @@ nav {
   text-transform: uppercase;
   color: var(--dorado-claro);
   background: var(--vino);
-  padding: 5px 18px;
-  border: 1px solid var(--dorado);
+  padding: 6px 28px;
   margin-bottom: 14px;
+  clip-path: polygon(14px 0%, calc(100% - 14px) 0%, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0% 50%);
 }
+.section-tag::before { content: '❧ '; }
+.section-tag::after  { content: ' ❧'; }
 .section-title {
   font-family: 'Cinzel', serif;
   font-size: clamp(1.75rem, 3vw, 2.5rem);
@@ -412,10 +436,20 @@ nav {
 /* ── NOSOTROS ── */
 #nosotros {
   background-color: var(--crema);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.07'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.13'/></svg>");
   padding: 80px 40px;
-  border-top: 4px solid var(--dorado);
-  border-bottom: 4px solid var(--dorado);
+  position: relative;
+  box-shadow: inset 0 12px 40px rgba(58,8,8,0.10);
+}
+#nosotros::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 64' preserveAspectRatio='none'><path d='M0,0 L1440,0 L1440,44 C1320,60 1200,28 1080,46 C960,64 840,24 720,42 C600,60 480,22 360,40 C240,58 120,26 0,46 Z' fill='%233A0808'/></svg>") no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 2;
 }
 .nosotros-inner {
   max-width: 1100px;
@@ -467,11 +501,11 @@ nav {
   gap: 12px;
 }
 .feature-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   background: var(--vino);
-  border: 1px solid var(--dorado);
-  border-radius: 3px;
+  border: 2px solid var(--dorado);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -492,10 +526,20 @@ nav {
 /* ── MENÚ ── */
 #menu {
   background-color: var(--blanco-crema);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.06'/></svg>");
-  padding: 80px 40px;
-  border-top: 4px double var(--dorado);
-  border-bottom: 4px double var(--dorado);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.11'/></svg>");
+  padding: 80px 40px 100px;
+  position: relative;
+  box-shadow: inset 0 -12px 40px rgba(58,8,8,0.10);
+}
+#menu::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 64' preserveAspectRatio='none'><path d='M0,64 L1440,64 L1440,22 C1320,6 1200,42 1080,24 C960,6 840,44 720,26 C600,8 480,46 360,28 C240,10 120,48 0,28 Z' fill='%235C0F0F'/></svg>") no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 2;
 }
 .menu-header {
   text-align: center;
@@ -638,15 +682,23 @@ nav {
   margin-top: 12px;
 }
 .pizza-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--rojo-carta);
+  color: var(--crema);
   font-family: 'Cinzel', serif;
-  font-size: 1.4rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--rojo-carta);
+  padding: 5px 13px;
+  border: 1px solid rgba(196,148,14,0.5);
+  letter-spacing: 0.04em;
 }
 .pizza-price span {
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   font-weight: 400;
-  color: #8B4A2A;
+  color: var(--crema-oscuro);
+  margin-right: 2px;
 }
 .pizza-order-btn {
   background: var(--vino);
@@ -732,8 +784,6 @@ nav {
   background-color: var(--vino);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.12'/></svg>");
   padding: 80px 40px;
-  border-top: 3px solid var(--dorado);
-  border-bottom: 3px solid var(--dorado);
 }
 #promos::before {
   content: '';
@@ -840,9 +890,30 @@ nav {
 /* ── HORARIOS ── */
 #horarios {
   background-color: var(--crema);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.07'/></svg>");
-  padding: 80px 40px;
-  border-bottom: 4px solid var(--dorado);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.13'/></svg>");
+  padding: 100px 40px;
+  position: relative;
+  box-shadow: inset 0 12px 40px rgba(58,8,8,0.10), inset 0 -12px 40px rgba(58,8,8,0.10);
+}
+#horarios::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 64' preserveAspectRatio='none'><path d='M0,0 L1440,0 L1440,38 C1320,58 1200,18 1080,40 C960,62 840,20 720,44 C600,62 480,24 360,44 C240,60 120,22 0,44 Z' fill='%235C0F0F'/></svg>") no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+#horarios::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 64' preserveAspectRatio='none'><path d='M0,64 L1440,64 L1440,26 C1320,8 1200,46 1080,28 C960,10 840,48 720,30 C600,12 480,50 360,32 C240,14 120,52 0,30 Z' fill='%235C0F0F'/></svg>") no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 2;
 }
 .horarios-inner {
   max-width: 900px;
@@ -925,7 +996,6 @@ nav {
   background-color: var(--vino);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.12'/></svg>");
   padding: 80px 40px;
-  border-top: 3px solid var(--dorado);
 }
 .contacto-inner {
   max-width: 800px;
@@ -1124,12 +1194,15 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
     border-radius: 3px;
     text-align: center;
   }
-  #nosotros, #horarios { padding: 60px 20px; }
+  #nosotros { padding: 80px 20px 60px; }
+  #horarios { padding: 80px 20px; }
   .nosotros-inner, .horarios-inner { grid-template-columns: 1fr; gap: 32px; }
   .nosotros-imgs { height: 280px; }
   .nosotros-img-main { width: 85%; height: 260px; }
   .nosotros-img-small { width: 55%; height: 160px; }
-  #menu, #promos, #contacto { padding: 60px 20px; }
+  #menu { padding: 60px 20px 80px; }
+  #promos, #contacto { padding: 60px 20px; }
+  .carta-divider { padding: 18px 20px; }
   .promos-grid { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; text-align: center; padding: 28px 20px; }
