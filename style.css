@@ -64,22 +64,42 @@ nav {
   text-decoration: none;
   font-family: 'Cinzel', serif;
   font-size: 0.78rem;
+  position: relative;
+}
+.nav-links a:not(.nav-cta) {
   font-weight: 600;
   color: rgba(245, 230, 200, 0.85);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: color 0.2s;
+  transition: color 0.2s, letter-spacing 0.25s;
 }
-.nav-links a:hover { color: var(--dorado-claro); }
+.nav-links a:not(.nav-cta)::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--dorado-claro);
+  transition: width 0.3s ease;
+}
+.nav-links a:not(.nav-cta):hover { color: var(--dorado-claro); letter-spacing: 0.14em; }
+.nav-links a:not(.nav-cta):hover::after { width: 100%; }
 .nav-links a:focus-visible { color: var(--dorado-claro); outline: 2px solid var(--dorado); outline-offset: 3px; border-radius: 2px; }
 .nav-cta {
-  background: var(--dorado) !important;
-  color: var(--vino-fondo) !important;
+  background: var(--dorado);
+  color: var(--vino-fondo);
   padding: 8px 20px;
   border-radius: 3px;
-  font-weight: 700 !important;
+  font-weight: 700;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
-.nav-cta:hover, .nav-cta:focus { background: var(--dorado-claro) !important; color: var(--vino-fondo) !important; }
+.nav-cta:hover, .nav-cta:focus {
+  background: var(--dorado-claro);
+  color: var(--vino-fondo);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(196,148,14,0.45);
+}
 
 /* Hamburger */
 .nav-hamburger {
@@ -135,6 +155,9 @@ nav {
     var(--dorado) 0, var(--dorado) 24px,
     transparent 24px, transparent 48px);
   opacity: 0.45;
+}
+@media (max-width: 480px) {
+  #hero::after { top: 56px; }
 }
 .hero-stage {
   position: relative;
@@ -238,11 +261,17 @@ nav {
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
-.btn-whatsapp:hover, .btn-whatsapp:focus-visible {
+.btn-whatsapp:hover {
   transform: translateY(-2px);
   background: var(--dorado-claro);
   box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-  outline: none;
+}
+.btn-whatsapp:focus-visible {
+  transform: translateY(-2px);
+  background: var(--dorado-claro);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  outline: 3px solid var(--crema);
+  outline-offset: 3px;
 }
 .btn-menu {
   display: flex;
@@ -258,24 +287,17 @@ nav {
   border: 2px solid rgba(232,184,74,0.55);
   transition: background 0.2s, border-color 0.2s;
 }
-.btn-menu:hover, .btn-menu:focus-visible {
+.btn-menu:hover {
   background: rgba(196,148,14,0.15);
   border-color: var(--dorado-claro);
-  outline: none;
+}
+.btn-menu:focus-visible {
+  background: rgba(196,148,14,0.15);
+  border-color: var(--dorado-claro);
+  outline: 3px solid var(--dorado-claro);
+  outline-offset: 3px;
 }
 
-/* Mascota decorativa */
-.hero-mascota {
-  position: absolute;
-  right: 4%;
-  bottom: 12%;
-  width: 160px;
-  opacity: 0.88;
-  z-index: 3;
-  pointer-events: none;
-  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
-  animation: floatB 6s ease-in-out infinite;
-}
 
 /* Polaroid strip */
 .polaroids-strip {
@@ -588,13 +610,35 @@ nav {
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(58,8,8,0.12);
   border-top: 3px solid var(--dorado);
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition: transform 0.3s, box-shadow 0.3s, border-top-color 0.3s;
   display: flex;
   flex-direction: column;
 }
 .pizza-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 38px rgba(58,8,8,0.22);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 44px rgba(58,8,8,0.26);
+  border-top-color: var(--dorado-claro);
+}
+.pizza-card:hover .pizza-card-img img {
+  transform: scale(1.08);
+}
+.pizza-card:hover .pizza-name {
+  color: var(--rojo-carta);
+}
+.pizza-card:hover .pizza-badge {
+  background: var(--dorado);
+  color: var(--vino-fondo);
+}
+.pizza-card:hover .pizza-price {
+  background: var(--dorado);
+  color: var(--vino-fondo);
+  box-shadow: 0 2px 12px rgba(196,148,14,0.35);
+}
+.pizza-card:hover .pizza-price span {
+  color: var(--vino-fondo);
+}
+.pizza-card:hover .pizza-order-btn {
+  box-shadow: 0 0 0 2px var(--dorado);
 }
 .pizza-card-img {
   height: 180px;
@@ -609,10 +653,7 @@ nav {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-.pizza-card-img .pizza-placeholder {
-  font-size: 3rem;
-  opacity: 0.4;
+  transition: transform 0.45s ease;
 }
 .pizza-badge {
   position: absolute;
@@ -627,6 +668,7 @@ nav {
   text-transform: uppercase;
   padding: 4px 10px;
   border-radius: 2px;
+  transition: background 0.3s, color 0.3s;
 }
 .pizza-card-body {
   padding: 20px;
@@ -639,6 +681,7 @@ nav {
   font-size: 1.08rem;
   font-weight: 700;
   color: var(--texto);
+  transition: color 0.25s;
 }
 .pizza-toggle {
   background: none;
@@ -693,12 +736,14 @@ nav {
   padding: 5px 13px;
   border: 1px solid rgba(196,148,14,0.5);
   letter-spacing: 0.04em;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 .pizza-price span {
   font-size: 0.72rem;
   font-weight: 400;
   color: var(--crema-oscuro);
   margin-right: 2px;
+  transition: color 0.3s;
 }
 .pizza-order-btn {
   background: var(--vino);
@@ -713,13 +758,20 @@ nav {
   text-decoration: none;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: background 0.2s, color 0.2s, transform 0.2s;
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
-.pizza-order-btn:hover, .pizza-order-btn:focus {
+.pizza-order-btn:hover {
+  background: var(--dorado);
+  color: var(--vino-fondo);
+  transform: scale(1.06);
+  box-shadow: 0 4px 14px rgba(196,148,14,0.45);
+}
+.pizza-order-btn:focus-visible {
   background: var(--dorado);
   color: var(--vino-fondo);
   transform: scale(1.05);
-  outline: none;
+  outline: 3px solid var(--dorado-claro);
+  outline-offset: 3px;
 }
 
 /* Para compartir */
@@ -880,11 +932,17 @@ nav {
   text-transform: uppercase;
   transition: background 0.2s, color 0.2s, transform 0.2s;
 }
-.promo-cta:hover, .promo-cta:focus {
+.promo-cta:hover {
   background: var(--dorado);
   color: var(--vino-fondo);
-  outline: none;
   transform: translateY(-1px);
+}
+.promo-cta:focus-visible {
+  background: var(--dorado);
+  color: var(--vino-fondo);
+  transform: translateY(-1px);
+  outline: 3px solid var(--dorado-claro);
+  outline-offset: 3px;
 }
 
 /* ── HORARIOS ── */
@@ -1032,10 +1090,15 @@ nav {
   align-items: center;
   gap: 12px;
 }
-.contact-card:hover, .contact-card:focus {
+.contact-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 16px 48px rgba(0,0,0,0.35);
-  outline: none;
+}
+.contact-card:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+  outline: 3px solid var(--dorado-claro);
+  outline-offset: 3px;
 }
 .contact-card-icon {
   width: 60px;
@@ -1076,6 +1139,10 @@ footer {
   display: flex;
   align-items: center;
   gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 .footer-logo span {
   font-family: 'Cinzel', serif;
@@ -1104,11 +1171,17 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   transition: transform 0.25s, box-shadow 0.25s;
   animation: pulse 2.5s infinite;
 }
-.wa-float:hover, .wa-float:focus {
+.wa-float:hover {
   transform: scale(1.1);
   box-shadow: 0 8px 32px rgba(37,211,102,0.6);
   animation: none;
-  outline: none;
+}
+.wa-float:focus-visible {
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px rgba(37,211,102,0.6);
+  animation: none;
+  outline: 3px solid white;
+  outline-offset: 3px;
 }
 .wa-float svg { width: 30px; height: 30px; }
 
@@ -1116,10 +1189,6 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
 @keyframes fadeDown {
   from { opacity: 0; transform: translateY(-20px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(8px); }
 }
 @keyframes pulse {
   0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
@@ -1142,26 +1211,20 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   border-radius: 4px;
   overflow: hidden;
 }
-.skeleton-img {
-  width: 100%;
-  height: 180px;
+.skeleton-img,
+.skeleton-line {
   background: linear-gradient(90deg, #d8c494 25%, #ecd8a8 50%, #d8c494 75%);
   background-size: 600px 100%;
   animation: shimmer 1.4s ease-in-out infinite;
 }
+.skeleton-img { width: 100%; height: 180px; }
 .skeleton-body {
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.skeleton-line {
-  height: 12px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #d8c494 25%, #ecd8a8 50%, #d8c494 75%);
-  background-size: 600px 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-}
+.skeleton-line { height: 12px; border-radius: 3px; }
 .skeleton-line.title { height: 18px; width: 65%; }
 .skeleton-line.short { width: 40%; }
 .skeleton-line.price { width: 30%; margin-top: 4px; }
@@ -1207,7 +1270,6 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   .features-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; text-align: center; padding: 28px 20px; }
   .hero-logo-mark { width: 150px; height: 150px; }
-  .hero-mascota { display: none; }
   #hero { padding-bottom: 80px; gap: 24px; }
   .hero-stage { order: 1; }
   .polaroids-strip {

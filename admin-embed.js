@@ -1,5 +1,12 @@
 'use strict';
 
+(function () {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'admin-overlay.css';
+  document.head.appendChild(link);
+})();
+
 const ADMIN_URL = 'https://ccayjhomoesqckkgylcn.supabase.co';
 const ADMIN_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNjYXlqaG9tb2VzcWNra2d5bGNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMjUzNjIsImV4cCI6MjA5MzcwMTM2Mn0.QZ_jkTzGoFrjgNYwAdQPH4IX3rl70KcKgp0iT74pnSE';
 const sbA = supabase.createClient(ADMIN_URL, ADMIN_KEY);

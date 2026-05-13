@@ -9,26 +9,30 @@
   <meta name="description" content="Pizzas artesanales y sanguches en Buenos Aires. Masa casera, ingredientes frescos y mucho amor. Pedí por WhatsApp." />
   <meta property="og:title" content="Rotisería del Amor – Pizzas &amp; Sanguches" />
   <meta property="og:description" content="Pizzas artesanales y sanguches en Buenos Aires. Pedí por WhatsApp." />
-  <meta property="og:image" content="uploads/pizza-napolitana.jpg" />
-  <meta property="og:type" content="restaurant" />
+  <meta property="og:image" content="https://rotiseriadelamor.netlify.app/uploads/pizza-napolitana.jpg" />
+  <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Rotisería del Amor – Pizzas &amp; Sanguches" />
   <meta name="twitter:description" content="Pizzas artesanales y sanguches en Buenos Aires. Pedí por WhatsApp." />
-  <meta name="twitter:image" content="uploads/pizza-napolitana.jpg" />
+  <meta name="twitter:image" content="https://rotiseriadelamor.netlify.app/uploads/pizza-napolitana.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Pacifico&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cinzel:wght@400;600;700&family=DM+Sans:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="admin-overlay.css" />
-  <link rel="preload" as="image" href="uploads/pizza-aceitunas.jpeg" />
+  <link rel="preload" as="image" href="uploads/pizza-prof-aceitunas.jpg" />
+  <link rel="canonical" href="https://rotiseriadelamor.netlify.app/" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Restaurant",
     "name": "Rotisería del Amor",
     "description": "Pizzas artesanales y sanguches en Buenos Aires.",
+    "url": "https://rotiseriadelamor.netlify.app",
+    "image": "https://rotiseriadelamor.netlify.app/uploads/pizza-napolitana.jpg",
     "telephone": "+5491171404663",
+    "priceRange": "$$",
+    "areaServed": "Buenos Aires",
     "servesCuisine": ["Pizza", "Sandwiches"],
     "openingHoursSpecification": [
       {
@@ -44,7 +48,10 @@
         "closes": "01:00"
       }
     ],
-    "sameAs": ["https://www.instagram.com/rotiseriadelamoor/"]
+    "sameAs": [
+      "https://www.instagram.com/rotiseriadelamoor/",
+      "https://rotiseriadelamor.netlify.app"
+    ]
   }
   </script>
 </head>
@@ -71,7 +78,7 @@
   <section id="hero">
     <div class="polaroids-strip">
       <div class="polaroid polaroid-1">
-        <img src="uploads/pizza-prof-aceitunas.jpg" alt="Pizza muzzarella con aceitunas" />
+        <img src="uploads/pizza-prof-aceitunas.jpg" alt="Pizza muzzarella con aceitunas" fetchpriority="high" />
         <div class="caption">Con aceitunas</div>
       </div>
       <div class="polaroid polaroid-2">
@@ -88,7 +95,6 @@
       </div>
     </div>
 
-    <img src="uploads/mascota.png" alt="" aria-hidden="true" class="hero-mascota" width="160" height="200" loading="eager" />
 
     <div class="hero-stage">
       <div class="hero-est">Pizzas · Sanguches · Desde 2020</div>
@@ -311,7 +317,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <button id="admin-footer-trigger" class="footer-logo admin-footer-trigger" aria-label="Acceso administrador">
+    <button type="button" id="admin-footer-trigger" class="footer-logo admin-footer-trigger" aria-label="Acceso administrador">
       <span>Rotisería del Amor</span>
     </button>
     <p>Hecho con ❤️ · Pizzas artesanales · Buenos Aires</p>
@@ -415,9 +421,9 @@
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="script.js"></script>
-  <script src="admin-embed.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="admin-embed.js" defer></script>
 
 </body>
 </html>

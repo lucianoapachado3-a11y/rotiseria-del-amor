@@ -20,7 +20,7 @@ function renderPizzaCard(p) {
     : `<div class="pizza-placeholder" aria-hidden="true">🍕</div>`;
   const badge  = p.badge ? `<span class="pizza-badge">${escapeHtml(p.badge)}</span>` : '';
   const waMsg  = encodeURIComponent(`Hola! Quiero pedir una ${p.nombre}`);
-  const precio = p.precio.toLocaleString('es-AR');
+  const precio = (p.precio ?? 0).toLocaleString('es-AR');
   return `<article class="pizza-card">
       <div class="pizza-card-img">${img}${badge}</div>
       <div class="pizza-card-body">
@@ -41,7 +41,7 @@ function renderPromoCard(p) {
     ? `<div class="promo-card-img"><img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="500" height="300" loading="lazy"></div>`
     : '';
   const waMsg  = encodeURIComponent(`Hola! Quiero la promo ${p.nombre}`);
-  const precio = p.precio.toLocaleString('es-AR');
+  const precio = (p.precio ?? 0).toLocaleString('es-AR');
   return `<div class="promo-card">
     ${img}
     <div class="promo-card-content">
@@ -55,7 +55,7 @@ function renderPromoCard(p) {
 
 function renderCompartirCard(p) {
   const waMsg  = encodeURIComponent(`Hola! Quiero pedir ${p.nombre}`);
-  const precio = p.precio.toLocaleString('es-AR');
+  const precio = (p.precio ?? 0).toLocaleString('es-AR');
   return `<div class="compartir-card">
       <div class="icon" aria-hidden="true">${p.icono || '🍽️'}</div>
       <button class="pizza-toggle" aria-expanded="false" aria-label="Ver detalle de ${escapeHtml(p.nombre)}">
@@ -96,7 +96,17 @@ async function loadMenu() {
   document.querySelector('#tab-compartir .compartir-grid').innerHTML = compartir.length  ? compartir.map(renderCompartirCard).join('') : empty;
 
   const promosGrid = document.getElementById('promos-grid');
-  if (promosGrid) promosGrid.innerHTML = promos.length ? promos.map(renderPromoCard).join('') : '';
+  if (promosGrid) {
+    promosGrid.innerHTML = promos.length
+      ? promos.map(renderPromoCard).join('')
+      : '<p style="text-align:center;padding:40px;color:rgba(245,230,200,0.45)">No hay promos activas por el momento.</p>';
+    promosGrid.querySelectorAll('.promo-card').forEach(el => {
+      el.style.opacity   = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  }
 
   revealCards(document.getElementById('tab-clasicas'));
 }
@@ -167,7 +177,7 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.promo-card, .horario-card, .contact-card, .feature-item').forEach(el => {
+document.querySelectorAll('.horario-card, .contact-card, .feature-item').forEach(el => {
   el.style.opacity   = '0';
   el.style.transform = 'translateY(24px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
