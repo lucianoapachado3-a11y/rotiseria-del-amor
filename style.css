@@ -267,7 +267,7 @@ nav {
 .btn-whatsapp:hover {
   transform: translateY(-2px);
   background: var(--dorado-claro);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 3px rgba(37,211,102,0.4);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 3px rgba(196,148,14,0.4);
 }
 .btn-whatsapp:hover svg { animation: none; }
 .btn-whatsapp:focus-visible {
@@ -1357,8 +1357,9 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
     position: fixed;
     bottom: 0; left: 0; right: 0;
     z-index: 998;
-    background: #1DA851;
-    box-shadow: 0 -2px 16px rgba(0,0,0,0.25);
+    background: var(--dorado);
+    box-shadow: 0 -2px 16px rgba(196,148,14,0.35);
+    border-top: 2px solid var(--dorado-claro);
   }
   .mobile-cta-bar a {
     display: flex;
@@ -1366,12 +1367,13 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
     justify-content: center;
     gap: 10px;
     padding: 15px 20px;
-    color: white;
+    color: var(--vino-fondo);
     text-decoration: none;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Cinzel', serif;
     font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.02em;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   .wa-float { display: none; }
   body { padding-bottom: 58px; }
