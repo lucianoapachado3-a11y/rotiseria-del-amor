@@ -261,11 +261,15 @@ nav {
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   box-shadow: 0 8px 24px rgba(0,0,0,0.4);
 }
+.btn-whatsapp svg {
+  animation: wa-wiggle 4s ease-in-out infinite;
+}
 .btn-whatsapp:hover {
   transform: translateY(-2px);
   background: var(--dorado-claro);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 0 3px rgba(37,211,102,0.4);
 }
+.btn-whatsapp:hover svg { animation: none; }
 .btn-whatsapp:focus-visible {
   transform: translateY(-2px);
   background: var(--dorado-claro);
@@ -1119,8 +1123,24 @@ nav {
   font-size: 0.82rem;
   color: #8B4A2A;
 }
-.contact-card.wa .contact-card-icon { background: #E8F9F0; }
-.contact-card.ig .contact-card-icon { background: #FEF0F5; }
+.contact-card.wa .contact-card-icon { background: #E8F9F0; transition: background 0.3s, transform 0.3s; }
+.contact-card.ig .contact-card-icon { background: #FEF0F5; transition: background 0.3s, transform 0.3s; }
+.contact-card.wa:hover {
+  border-top-color: #25D366;
+  box-shadow: 0 16px 48px rgba(37,211,102,0.3);
+}
+.contact-card.wa:hover .contact-card-icon {
+  background: #B8F0D0;
+  transform: scale(1.2) rotate(-8deg);
+}
+.contact-card.ig:hover {
+  border-top-color: #E1306C;
+  box-shadow: 0 16px 48px rgba(225,48,108,0.3);
+}
+.contact-card.ig:hover .contact-card-icon {
+  background: #FDDDE9;
+  transform: scale(1.2) rotate(8deg);
+}
 
 /* ── FOOTER ── */
 footer {
@@ -1184,6 +1204,17 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   outline-offset: 3px;
 }
 .wa-float svg { width: 30px; height: 30px; }
+.wa-float::before,
+.wa-float::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(37, 211, 102, 0.35);
+  animation: wa-ring 2.5s ease-out infinite;
+  pointer-events: none;
+}
+.wa-float::after { animation-delay: 1.25s; }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeDown {
@@ -1193,6 +1224,17 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
 @keyframes pulse {
   0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
   50%       { box-shadow: 0 4px 40px rgba(37,211,102,0.8); }
+}
+@keyframes wa-ring {
+  0%   { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes wa-wiggle {
+  0%, 75%, 100% { transform: rotate(0deg); }
+  80%  { transform: rotate(-18deg); }
+  87%  { transform: rotate(14deg); }
+  93%  { transform: rotate(-8deg); }
+  97%  { transform: rotate(5deg); }
 }
 @keyframes shimmer {
   from { background-position: -600px 0; }
