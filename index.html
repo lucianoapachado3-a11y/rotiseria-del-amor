@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://ccayjhomoesqckkgylcn.supabase.co; script-src 'self' https://cdn.jsdelivr.net; connect-src https://ccayjhomoesqckkgylcn.supabase.co; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'none'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: https://ccayjhomoesqckkgylcn.supabase.co; script-src 'self' https://cdn.jsdelivr.net; connect-src https://ccayjhomoesqckkgylcn.supabase.co; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'none'; upgrade-insecure-requests;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>Pizzería del Amor - Marcos Paz</title>
-  <meta name="description" content="Pizzas artesanales y sanguches en Buenos Aires. Masa casera, ingredientes frescos y mucho amor. Pedí por WhatsApp." />
-  <meta property="og:title" content="Rotisería del Amor – Pizzas &amp; Sanguches" />
-  <meta property="og:description" content="Pizzas artesanales y sanguches en Buenos Aires. Pedí por WhatsApp." />
+  <meta name="geo.region" content="AR-B" />
+  <meta name="geo.placename" content="Marcos Paz, Buenos Aires" />
+  <meta name="ICBM" content="-34.7833, -58.8333" />
+  <title>D'amoor | Pizza Artesanal a Domicilio en Marcos Paz</title>
+  <meta name="description" content="Pizza artesanal y sanguches con delivery en Marcos Paz. Masa casera, ingredientes frescos y mucho amor. Pedí por WhatsApp." />
+  <meta property="og:title" content="D'amoor – Pizza Artesanal en Marcos Paz" />
+  <meta property="og:description" content="Pizza artesanal y sanguches con delivery en Marcos Paz. Pedí por WhatsApp." />
   <meta property="og:image" content="https://rotiseriadelamor.netlify.app/uploads/pizza-napolitana.jpg" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Rotisería del Amor – Pizzas &amp; Sanguches" />
-  <meta name="twitter:description" content="Pizzas artesanales y sanguches en Buenos Aires. Pedí por WhatsApp." />
+  <meta name="twitter:title" content="D'amoor – Pizza Artesanal en Marcos Paz" />
+  <meta name="twitter:description" content="Pizza artesanal y sanguches con delivery en Marcos Paz. Pedí por WhatsApp." />
   <meta name="twitter:image" content="https://rotiseriadelamor.netlify.app/uploads/pizza-napolitana.jpg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cinzel:wght@400;600;700&family=DM+Sans:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="fonts/fonts.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
   <link rel="stylesheet" href="style.css" />
-  <link rel="preload" as="image" href="uploads/pizza-prof-aceitunas.jpg" />
+  <link rel="preload" as="image" href="uploads/logo-opt.webp" type="image/webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="uploads/pizza-prof-aceitunas.webp" type="image/webp" />
   <link rel="canonical" href="https://rotiseriadelamor.netlify.app/" />
   <script type="application/ld+json">
   {
@@ -32,7 +34,13 @@
     "image": "https://rotiseriadelamor.netlify.app/uploads/pizza-napolitana.jpg",
     "telephone": "+5491171404663",
     "priceRange": "$$",
-    "areaServed": "Buenos Aires",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Marcos Paz",
+      "addressRegion": "Buenos Aires",
+      "addressCountry": "AR"
+    },
+    "areaServed": "Marcos Paz, Buenos Aires",
     "servesCuisine": ["Pizza", "Sandwiches"],
     "openingHoursSpecification": [
       {
@@ -78,32 +86,45 @@
   <section id="hero">
     <div class="polaroids-strip">
       <div class="polaroid polaroid-1">
-        <img src="uploads/pizza-prof-aceitunas.jpg" alt="Pizza napolitana artesanal" fetchpriority="high" />
+        <picture>
+          <source type="image/webp" srcset="uploads/pizza-prof-aceitunas-sm.webp 315w, uploads/pizza-prof-aceitunas.webp 600w" sizes="(max-width:768px) 130px, 200px" />
+          <img src="uploads/pizza-prof-aceitunas.jpg" srcset="uploads/pizza-prof-aceitunas-sm.jpg 315w, uploads/pizza-prof-aceitunas.jpg 600w" sizes="(max-width:768px) 130px, 200px" alt="Pizza napolitana artesanal con aceitunas en Marcos Paz" fetchpriority="high" decoding="sync" />
+        </picture>
         <div class="caption">Napolitana</div>
       </div>
       <div class="polaroid polaroid-2">
-        <img src="uploads/pizza-prof-jamon.jpg" alt="Pizza con jamón y morrón" />
+        <picture>
+          <source type="image/webp" srcset="uploads/pizza-prof-jamon-sm.webp 320w, uploads/pizza-prof-jamon.webp 800w" sizes="(max-width:768px) 130px, 200px" />
+          <img src="uploads/pizza-prof-jamon.jpg" srcset="uploads/pizza-prof-jamon-sm.jpg 320w, uploads/pizza-prof-jamon.jpg 800w" sizes="(max-width:768px) 130px, 200px" alt="Pizza artesanal con jamón y morrón en Marcos Paz" loading="lazy" decoding="async" />
+        </picture>
         <div class="caption">Jamón y morrón</div>
       </div>
       <div class="polaroid polaroid-3">
-        <img src="uploads/pizza-prof-napolitana.jpg" alt="Pizza muzzarela artesanal" />
+        <picture>
+          <source type="image/webp" srcset="uploads/pizza-prof-napolitana-sm.webp 320w, uploads/pizza-prof-napolitana.webp 800w" sizes="(max-width:768px) 130px, 200px" />
+          <img src="uploads/pizza-prof-napolitana.jpg" srcset="uploads/pizza-prof-napolitana-sm.jpg 320w, uploads/pizza-prof-napolitana.jpg 800w" sizes="(max-width:768px) 130px, 200px" alt="Pizza muzzarela artesanal D'amoor Marcos Paz" loading="lazy" decoding="async" />
+        </picture>
         <div class="caption">Muzzarela</div>
       </div>
       <div class="polaroid polaroid-4">
-        <img src="uploads/pizza-huevo-rallado.png" alt="Pizza con huevo rallado" />
+        <picture>
+          <source type="image/webp" srcset="uploads/pizza-huevo-rallado-sm.webp 315w, uploads/pizza-huevo-rallado.webp 1086w" sizes="(max-width:768px) 130px, 175px" />
+          <img src="uploads/pizza-huevo-rallado.jpg" srcset="uploads/pizza-huevo-rallado-sm.jpg 315w, uploads/pizza-huevo-rallado.jpg 1086w" sizes="(max-width:768px) 130px, 175px" alt="Pizza con huevo rallado" loading="lazy" decoding="async" />
+        </picture>
         <div class="caption">Huevo rallado</div>
       </div>
     </div>
-
-
     <div class="hero-stage">
-      <div class="hero-est">Pizzas · Sanguches · Desde 2020</div>
-      <img src="uploads/logo.png" alt="d'amoor — Pizzas y Sanguches" class="hero-logo-mark" width="190" height="190" loading="eager" fetchpriority="high" />
+      <div class="hero-est">Pizzas · Sanguches · Marcos Paz</div>
+      <picture>
+        <source type="image/webp" srcset="uploads/logo-opt.webp" />
+        <img src="uploads/logo-opt.jpg" alt="d'amoor — Pizzas y Sanguches" class="hero-logo-mark" width="190" height="190" loading="eager" fetchpriority="high" decoding="sync" />
+      </picture>
       <h1 class="hero-title">Pizza<br>al <span class="yel">corazón</span>.</h1>
       <div class="hero-title-divider">
         <span></span><em>hecha con amor</em><span></span>
       </div>
-      <p class="hero-sub">Masa artesanal, ingredientes frescos y horno bien caliente. Pedís, te atendemos como en casa y la disfrutás.</p>
+      <p class="hero-sub">Pizza artesanal con delivery en Marcos Paz. Masa casera, ingredientes frescos y horno bien caliente. Pedís por WhatsApp y te la llevamos.</p>
       <div class="hero-btns">
         <a href="https://wa.me/5491171404663?text=Hola!%20Quiero%20hacer%20un%20pedido" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -133,8 +154,14 @@
   <section id="nosotros">
     <div class="nosotros-inner">
       <div class="nosotros-imgs">
-        <img src="uploads/masa-leudada.png" alt="Masa artesanal leudada lista para el horno" class="nosotros-img-main" width="500" height="380" loading="lazy" />
-        <img src="uploads/masa-cruda.png" alt="Masa casera recién amasada en la pizzera" class="nosotros-img-small" width="300" height="220" loading="lazy" />
+        <picture>
+          <source type="image/webp" srcset="uploads/masa-leudada-sm.webp 700w, uploads/masa-leudada.webp 1448w" sizes="(max-width:768px) 85vw, 500px" />
+          <img src="uploads/masa-leudada.jpg" srcset="uploads/masa-leudada-sm.jpg 700w, uploads/masa-leudada.jpg 1448w" sizes="(max-width:768px) 85vw, 500px" alt="Masa artesanal leudada lista para el horno" class="nosotros-img-main" width="500" height="380" loading="lazy" decoding="async" />
+        </picture>
+        <picture>
+          <source type="image/webp" srcset="uploads/masa-cruda-sm.webp 699w, uploads/masa-cruda.webp 1868w" sizes="(max-width:768px) 55vw, 300px" />
+          <img src="uploads/masa-cruda.jpg" srcset="uploads/masa-cruda-sm.jpg 699w, uploads/masa-cruda.jpg 1868w" sizes="(max-width:768px) 55vw, 300px" alt="Masa casera recién amasada en la pizzera" class="nosotros-img-small" width="300" height="220" loading="lazy" decoding="async" />
+        </picture>
       </div>
       <div class="nosotros-text">
         <span class="section-tag">Nuestra historia</span>
@@ -159,7 +186,7 @@
           <div class="feature-item">
             <div class="feature-icon" aria-hidden="true">🛵</div>
             <div class="feature-text">
-              <strong>Delivery disponible</strong>
+              <strong>Delivery en Marcos Paz</strong>
               <span>Pedí por WhatsApp</span>
             </div>
           </div>
@@ -255,9 +282,8 @@
         <span class="section-tag">Cuándo estamos</span>
         <h2 class="section-title">Horarios de atención</h2>
         <p>Abrimos al mediodía y a la noche para que puedas disfrutar de nuestras pizzas cuando más lo necesitás.</p>
-        <br>
         <p>Para pedidos, escribinos por <strong>WhatsApp</strong> y coordinamos la entrega o el retiro.</p>
-        <div class="delivery-banner">
+        <div class="delivery-banner" style="margin-top:24px">
           <span class="icon" aria-hidden="true">🛵</span>
           <div>
             <strong>Delivery disponible</strong>
@@ -314,6 +340,14 @@
       </div>
     </div>
   </section>
+
+  <!-- MOBILE STICKY CTA -->
+  <div class="mobile-cta-bar">
+    <a href="https://wa.me/5491171404663?text=Hola!%20Quiero%20hacer%20un%20pedido" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pedir por WhatsApp
+    </a>
+  </div>
 
   <!-- FOOTER -->
   <footer>

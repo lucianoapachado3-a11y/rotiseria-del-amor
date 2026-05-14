@@ -68,6 +68,15 @@ function renderCompartirCard(p) {
     </div>`;
 }
 
+function setContent(el, html) {
+  el.style.opacity = '0';
+  el.innerHTML = html;
+  requestAnimationFrame(() => {
+    el.style.transition = 'opacity 0.35s ease';
+    el.style.opacity = '1';
+  });
+}
+
 async function loadMenu() {
   const { data, error } = await sb
     .from('platos')
@@ -80,9 +89,9 @@ async function loadMenu() {
   const err   = '<p style="text-align:center;padding:40px;color:#C8242A">Error al cargar el menú. Intentá recargar la página.</p>';
 
   if (error) {
-    document.querySelector('#tab-clasicas .pizza-grid').innerHTML   = err;
-    document.querySelector('#tab-especiales .pizza-grid').innerHTML = err;
-    document.querySelector('#tab-compartir .compartir-grid').innerHTML = err;
+    setContent(document.querySelector('#tab-clasicas .pizza-grid'), err);
+    setContent(document.querySelector('#tab-especiales .pizza-grid'), err);
+    setContent(document.querySelector('#tab-compartir .compartir-grid'), err);
     return;
   }
 
@@ -91,9 +100,9 @@ async function loadMenu() {
   const compartir  = data.filter(p => p.categoria === 'compartir');
   const promos     = data.filter(p => p.categoria === 'promo');
 
-  document.querySelector('#tab-clasicas .pizza-grid').innerHTML      = clasicas.length   ? clasicas.map(renderPizzaCard).join('')      : empty;
-  document.querySelector('#tab-especiales .pizza-grid').innerHTML    = especiales.length ? especiales.map(renderPizzaCard).join('')    : empty;
-  document.querySelector('#tab-compartir .compartir-grid').innerHTML = compartir.length  ? compartir.map(renderCompartirCard).join('') : empty;
+  setContent(document.querySelector('#tab-clasicas .pizza-grid'),      clasicas.length   ? clasicas.map(renderPizzaCard).join('')      : empty);
+  setContent(document.querySelector('#tab-especiales .pizza-grid'),    especiales.length ? especiales.map(renderPizzaCard).join('')    : empty);
+  setContent(document.querySelector('#tab-compartir .compartir-grid'), compartir.length  ? compartir.map(renderCompartirCard).join('') : empty);
 
   const promosGrid = document.getElementById('promos-grid');
   if (promosGrid) {

@@ -826,7 +826,7 @@ nav {
   width: 100%;
   height: 100%;
   display: block;
-  background-image: url('uploads/menu-card.png');
+  background-image: url('uploads/menu-card.jpg');
   background-size: cover;
   background-position: center;
   color: transparent;
@@ -1345,6 +1345,36 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   .promo-card-content { padding: 20px 22px 24px; }
   .contact-cards { flex-direction: column; align-items: stretch; }
   .contact-card { min-width: unset; }
+}
+
+/* ── MOBILE STICKY CTA ── */
+.mobile-cta-bar {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobile-cta-bar {
+    display: block;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 998;
+    background: #1DA851;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.25);
+  }
+  .mobile-cta-bar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+  .wa-float { display: none; }
+  body { padding-bottom: 58px; }
 }
 
 /* ── EXTRA SMALL (480px) ── */
