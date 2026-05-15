@@ -143,7 +143,12 @@ nav {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(42, 6, 6, 0.60);
+  background: linear-gradient(
+    180deg,
+    rgba(42,6,6,0.38) 0%,
+    rgba(42,6,6,0.60) 40%,
+    rgba(42,6,6,0.82) 100%
+  );
   pointer-events: none;
 }
 #hero::after {
@@ -372,6 +377,8 @@ nav {
   overflow: hidden;
   border-top: 3px solid var(--dorado);
   z-index: 4;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 72px, #000 calc(100% - 72px), transparent 100%);
 }
 .ticker-track {
   display: flex;
@@ -599,7 +606,10 @@ nav {
 }
 .tab-btn:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
 .menu-panel { display: none; }
-.menu-panel.active { display: block; }
+.menu-panel.active {
+  display: block;
+  animation: tabPanelIn 0.28s ease-out both;
+}
 
 .pizza-grid {
   max-width: 1100px;
@@ -1286,7 +1296,10 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
     border-bottom: 2px solid var(--dorado);
     box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   }
-  .nav-links.open { display: flex; }
+  .nav-links.open {
+    display: flex;
+    animation: mobileMenuIn 0.22s ease-out both;
+  }
   .nav-links li { width: 100%; }
   .nav-links a {
     display: block;
@@ -1398,4 +1411,118 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   .promo-cta { padding: 13px 26px; }
   footer { padding: 24px 16px; }
   .wa-float { bottom: 20px; right: 16px; width: 52px; height: 52px; }
+}
+
+/* ── DESIGN ENHANCEMENTS ── */
+
+/* Radial golden glow behind hero logo */
+.hero-logo-mark {
+  filter: drop-shadow(0 0 28px rgba(196,148,14,0.35)) drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+
+/* Section title: elegant gold underline divider */
+.section-title::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--dorado), var(--dorado-claro) 50%, var(--dorado));
+  margin-top: 12px;
+  border-radius: 1px;
+  opacity: 0.85;
+}
+.menu-header .section-title::after,
+.promos-header .section-title::after,
+.contacto-inner .section-title::after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Nosotros: quote-style accent on the opening paragraph */
+.nosotros-text > p:first-of-type {
+  border-left: 3px solid rgba(196,148,14,0.55);
+  padding-left: 18px;
+}
+
+/* Horario cards: interactive slide on hover */
+.horario-card {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.horario-card:hover {
+  transform: translateX(7px);
+  box-shadow: -4px 4px 28px rgba(58,8,8,0.18), 0 8px 32px rgba(58,8,8,0.15);
+}
+
+/* Promo cards: subtle golden shimmer border on hover */
+.promo-card:hover {
+  box-shadow: 0 22px 56px rgba(0,0,0,0.32), 0 0 0 1px rgba(196,148,14,0.4);
+}
+
+/* Pizza card images: slightly tighter transition */
+.pizza-card-img img {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.pizza-card:hover .pizza-card-img img {
+  transform: scale(1.09);
+}
+
+/* Hero: faint gold ambient glow centered on the stage */
+.hero-stage::after {
+  content: '';
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,148,14,0.09) 0%, transparent 68%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── NEW ANIMATION KEYFRAMES ── */
+@keyframes mobileMenuIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes tabPanelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SCROLL PROGRESS BAR ── */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--dorado), var(--dorado-claro), var(--dorado));
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 300;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .polaroid { animation: none !important; }
+  .ticker-track { animation-play-state: paused; }
+  .wa-float,
+  .wa-float::before,
+  .wa-float::after { animation: none !important; }
+  .btn-whatsapp svg { animation: none !important; }
+  .hero-est,
+  .hero-logo-mark,
+  .hero-title,
+  .hero-title-divider,
+  .hero-sub,
+  .hero-btns {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .menu-panel.active { animation: none !important; }
+  .nav-links.open    { animation: none !important; }
+  #scroll-progress   { display: none; }
 }

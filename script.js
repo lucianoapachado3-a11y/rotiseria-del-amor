@@ -193,4 +193,27 @@ document.querySelectorAll('.horario-card, .contact-card, .feature-item').forEach
   observer.observe(el);
 });
 
+// Nosotros section scroll reveal
+document.querySelectorAll('.nosotros-imgs').forEach(el => {
+  el.style.opacity    = '0';
+  el.style.transform  = 'translateY(32px)';
+  el.style.transition = 'opacity 0.52s ease-out, transform 0.52s ease-out';
+  observer.observe(el);
+});
+document.querySelectorAll('.nosotros-text').forEach(el => {
+  el.style.opacity    = '0';
+  el.style.transform  = 'translateY(32px)';
+  el.style.transition = 'opacity 0.52s ease-out 0.14s, transform 0.52s ease-out 0.14s';
+  observer.observe(el);
+});
+
+// Scroll progress bar
+const scrollProgress = document.getElementById('scroll-progress');
+if (scrollProgress) {
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    scrollProgress.style.transform = 'scaleX(' + (total > 0 ? window.scrollY / total : 0) + ')';
+  }, { passive: true });
+}
+
 loadMenu();
