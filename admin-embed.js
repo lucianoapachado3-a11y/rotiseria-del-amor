@@ -212,14 +212,14 @@ async function loadAdminLista() {
   renderAdminLista(data || []);
 }
 
-const ADMIN_CAT = { clasicas: 'Pizzas Clásicas', especiales: 'Pizzas Especiales', compartir: 'Para Compartir', promo: 'Promos' };
+const ADMIN_CAT = { clasicas: 'Pizzas Clásicas', especiales: 'Pizzas Especiales', compartir: 'Para Compartir', salsas: 'Salsas', promo: 'Promos' };
 
 function renderAdminLista(platos) {
   if (!platos.length) {
     listaDiv.innerHTML = '<p style="text-align:center;padding:20px;color:#9A7055;font-size:0.85rem">No hay platos. ¡Agregá el primero!</p>';
     return;
   }
-  const bycat = { clasicas: [], especiales: [], compartir: [], promo: [] };
+  const bycat = { clasicas: [], especiales: [], compartir: [], salsas: [], promo: [] };
   platos.forEach(p => { if (bycat[p.categoria]) bycat[p.categoria].push(p); });
 
   listaDiv.innerHTML = Object.entries(bycat)
