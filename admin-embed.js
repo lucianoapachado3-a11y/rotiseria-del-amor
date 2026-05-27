@@ -126,6 +126,11 @@ function showInnerTab(name) {
 
 // ── Form ──────────────────────────────────────────────────────────────────────
 
+// Mostrar campo componentes solo para promos
+document.getElementById('ap-categoria').addEventListener('change', function () {
+  document.getElementById('afield-componentes').hidden = this.value !== 'promo';
+});
+
 document.getElementById('ap-imagen').addEventListener('change', e => {
   const file = e.target.files[0];
   if (!file) return;
@@ -146,13 +151,15 @@ platoForm.addEventListener('submit', async e => {
     let imagen_url = adminCurrentImgUrl;
     if (file) imagen_url = await adminUploadImage(file);
 
+    const categoria = document.getElementById('ap-categoria').value;
     const plato = {
-      nombre:      document.getElementById('ap-nombre').value.trim(),
-      categoria:   document.getElementById('ap-categoria').value,
-      descripcion: document.getElementById('ap-descripcion').value.trim(),
-      precio:      parseInt(document.getElementById('ap-precio').value, 10),
-      badge:       document.getElementById('ap-badge').value.trim(),
-      icono:       document.getElementById('ap-icono').value.trim(),
+      nombre:       document.getElementById('ap-nombre').value.trim(),
+      categoria,
+      descripcion:  document.getElementById('ap-descripcion').value.trim(),
+      precio:       parseInt(document.getElementById('ap-precio').value, 10),
+      badge:        document.getElementById('ap-badge').value.trim(),
+      icono:        document.getElementById('ap-icono').value.trim(),
+      componentes:  categoria === 'promo' ? (document.getElementById('ap-componentes').value.trim() || null) : null,
       imagen_url,
     };
 
@@ -192,6 +199,7 @@ function resetAdminForm() {
   platoForm.reset();
   imgPreview.hidden = true;
   imgPreview.src    = '';
+  document.getElementById('afield-componentes').hidden    = true;
   document.getElementById('admin-form-title').textContent = 'Nuevo plato';
   document.getElementById('admin-save-btn').textContent   = 'Guardar plato';
   document.getElementById('admin-cancel-btn').hidden      = true;
@@ -267,12 +275,14 @@ async function adminStartEdit(id) {
   adminEditingId     = id;
   adminCurrentImgUrl = p.imagen_url || '';
 
-  document.getElementById('ap-nombre').value      = p.nombre;
-  document.getElementById('ap-categoria').value   = p.categoria;
-  document.getElementById('ap-descripcion').value = p.descripcion || '';
-  document.getElementById('ap-precio').value      = p.precio;
-  document.getElementById('ap-badge').value       = p.badge || '';
-  document.getElementById('ap-icono').value       = p.icono || '';
+  document.getElementById('ap-nombre').value        = p.nombre;
+  document.getElementById('ap-categoria').value     = p.categoria;
+  document.getElementById('ap-descripcion').value   = p.descripcion || '';
+  document.getElementById('ap-precio').value        = p.precio;
+  document.getElementById('ap-badge').value         = p.badge || '';
+  document.getElementById('ap-icono').value         = p.icono || '';
+  document.getElementById('ap-componentes').value   = p.componentes || '';
+  document.getElementById('afield-componentes').hidden = p.categoria !== 'promo';
 
   if (p.imagen_url) {
     imgPreview.src    = p.imagen_url;

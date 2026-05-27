@@ -1895,6 +1895,70 @@ body::after {
   border-color: rgba(245, 230, 200, 0.4);
 }
 
+/* Sugerencias de promo */
+.cart-promos {
+  padding: 10px 14px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cart-promo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(196,148,14,0.12), rgba(196,148,14,0.06));
+  border: 1px solid rgba(196,148,14,0.35);
+  border-radius: 10px;
+  padding: 10px 12px;
+  animation: promoFadeIn 0.3s ease;
+}
+@keyframes promoFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cart-promo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.cart-promo-tag {
+  font-size: 0.68rem;
+  color: var(--dorado);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.cart-promo-name {
+  font-size: 0.82rem;
+  color: var(--crema);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart-promo-saving {
+  font-size: 0.72rem;
+  color: rgba(100, 220, 120, 0.85);
+}
+.cart-promo-btn {
+  flex-shrink: 0;
+  background: var(--dorado);
+  color: var(--texto);
+  border: none;
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, transform 0.1s;
+}
+.cart-promo-btn:hover {
+  background: var(--dorado-claro);
+  transform: scale(1.04);
+}
+
 /* Salsa selector */
 .cart-salsa-wrap {
   display: flex;

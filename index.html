@@ -407,6 +407,7 @@
       <p>Tu pedido está vacío</p>
       <small>Agregá pizzas, salsas o promos<br>desde el menú</small>
     </div>
+    <div id="cart-promos" class="cart-promos" hidden></div>
     <div id="cart-footer" class="cart-footer" hidden>
       <div class="cart-total-row">
         <span>Total estimado</span>
@@ -526,6 +527,11 @@
           <div class="afield">
             <label for="ap-descripcion">Descripción / Ingredientes</label>
             <input type="text" id="ap-descripcion" placeholder="Ej: Muzza, tomate, albahaca" />
+          </div>
+          <div class="afield" id="afield-componentes" hidden>
+            <label for="ap-componentes">Ítems que incluye <span class="ahint">(solo promos)</span></label>
+            <input type="text" id="ap-componentes" placeholder="Ej: Muzzarela, Napolitana" />
+            <small class="afield-hint">Nombres exactos separados por coma. El carrito detecta automáticamente si el cliente tiene esos ítems.</small>
           </div>
           <div class="aform-row">
             <div class="afield">

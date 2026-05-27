@@ -174,6 +174,84 @@
     return opts;
   }
 
+  /* ── Detección y aplicación de promos ───────────────── */
+  function getPromoComponentes(promo) {
+    if (!promo.componentes) return [];
+    return promo.componentes.split(',').map(function (s) { return s.trim(); });
+  }
+
+  function findMatchingPromos() {
+    var promos = (window.__menuPromos || []).filter(function (p) { return p.componentes && p.componentes.trim(); });
+    return promos.filter(function (promo) {
+      var required = getPromoComponentes(promo);
+      if (!required.length) return false;
+      return required.every(function (req) {
+        return items.some(function (item) {
+          return item.nombre.trim().toLowerCase() === req.toLowerCase();
+        });
+      });
+    });
+  }
+
+  function calcPromoSaving(promo) {
+    var required = getPromoComponentes(promo);
+    var sum = required.reduce(function (acc, req) {
+      var item = items.find(function (i) { return i.nombre.trim().toLowerCase() === req.toLowerCase(); });
+      return acc + (item ? getEffectivePrice(item) : 0);
+    }, 0);
+    return Math.max(0, sum - promo.precio);
+  }
+
+  function applyPromo(promoId) {
+    var promo = (window.__menuPromos || []).find(function (p) { return String(p.id) === String(promoId); });
+    if (!promo) return;
+    var required = getPromoComponentes(promo);
+    // Quitar 1 unidad de cada componente
+    required.forEach(function (req) {
+      var idx = items.findIndex(function (i) { return i.nombre.trim().toLowerCase() === req.toLowerCase(); });
+      if (idx === -1) return;
+      items[idx].cantidad--;
+      if (items[idx].cantidad <= 0) items.splice(idx, 1);
+    });
+    // Agregar la promo como ítem
+    items.push({
+      id: nextId++,
+      nombre: promo.nombre,
+      precio: promo.precio,
+      cantidad: 1,
+      categoria: 'promo',
+      mitad: null,
+      salsa: null,
+      selectingMitad: false
+    });
+    render();
+  }
+
+  function renderPromoSuggestions() {
+    var promosEl = document.getElementById('cart-promos');
+    if (!promosEl) return;
+    var matches = findMatchingPromos();
+    if (!matches.length) { promosEl.hidden = true; return; }
+
+    promosEl.hidden = false;
+    promosEl.innerHTML = matches.map(function (promo) {
+      var saving = calcPromoSaving(promo);
+      var savingHtml = saving > 0
+        ? '<span class="cart-promo-saving">Ahorrás $' + fmt(saving) + '</span>'
+        : '';
+      return '<div class="cart-promo-banner">' +
+        '<div class="cart-promo-info">' +
+          '<span class="cart-promo-tag">🎉 Combo disponible</span>' +
+          '<strong class="cart-promo-name">' + esc(promo.nombre) + '</strong>' +
+          savingHtml +
+        '</div>' +
+        '<button class="cart-promo-btn" data-cart-action="apply-promo" data-promo-id="' + promo.id + '">' +
+          'Usar promo' +
+        '</button>' +
+      '</div>';
+    }).join('');
+  }
+
   /* ── Render carrito ──────────────────────────────────── */
   function render() {
     if (!itemsEl) return;
@@ -255,6 +333,7 @@
 
     if (totalEl) totalEl.textContent = '$' + fmt(getTotal());
     updateBadge();
+    renderPromoSuggestions();
   }
 
   function updateBadge() {
@@ -353,6 +432,7 @@
         else if (action === 'mitad-start')  startMitad(id);
         else if (action === 'mitad-cancel') cancelMitad(id);
         else if (action === 'mitad-clear')  clearMitad(id);
+        else if (action === 'apply-promo')  applyPromo(btn.dataset.promoId);
       });
 
       // Selects: mitad y salsa

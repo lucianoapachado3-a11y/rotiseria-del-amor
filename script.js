@@ -120,6 +120,8 @@ async function loadMenu() {
   setContent(document.querySelector('#tab-compartir .compartir-grid'), compartir.length  ? compartir.map(renderCompartirCard).join('') : empty);
   setContent(document.querySelector('#tab-salsas .pizza-grid'),        salsas.length     ? salsas.map(renderSalsaCard).join('')        : empty);
 
+  window.__menuPromos = promos; // expose for cart promo detection
+
   const promosGrid = document.getElementById('promos-grid');
   if (promosGrid) {
     promosGrid.innerHTML = promos.length

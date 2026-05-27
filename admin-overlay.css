@@ -143,6 +143,7 @@
   font-family: 'DM Sans', sans-serif;
 }
 .ahint { font-weight: 400; color: #A06070; }
+.afield-hint { font-size: 0.75rem; color: #A06070; line-height: 1.5; }
 
 .afield input[type="text"],
 .afield input[type="email"],
