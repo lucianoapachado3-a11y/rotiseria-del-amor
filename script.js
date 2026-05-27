@@ -52,22 +52,17 @@ function renderPromoCard(p) {
 }
 
 function renderSalsaCard(p) {
-  const img   = p.imagen_url
+  const img  = p.imagen_url
     ? `<img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="300" height="180" loading="lazy">`
     : `<div class="pizza-placeholder" aria-hidden="true">🧄</div>`;
-  const badge  = p.badge ? `<span class="pizza-badge">${escapeHtml(p.badge)}</span>` : '';
-  const precio = (p.precio ?? 0).toLocaleString('es-AR');
-  return `<article class="pizza-card">
+  const badge = p.badge ? `<span class="pizza-badge">${escapeHtml(p.badge)}</span>` : '';
+  return `<article class="pizza-card" data-salsa-nombre="${escapeHtml(p.nombre)}">
       <div class="pizza-card-img">${img}${badge}</div>
       <div class="pizza-card-body">
         <button class="pizza-toggle" aria-expanded="false" aria-label="Ver detalle de ${escapeHtml(p.nombre)}">
           <span class="pizza-name">${escapeHtml(p.nombre)}</span>${ARROW}
         </button>
         <div class="pizza-desc-wrap"><div class="pizza-desc">${escapeHtml(p.descripcion)}</div></div>
-        <div class="pizza-footer">
-          <div class="pizza-price">$${precio}</div>
-          <button class="pizza-order-btn" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}">Agregar +</button>
-        </div>
       </div>
     </article>`;
 }

@@ -1926,6 +1926,15 @@ body::after {
   color: var(--crema);
 }
 
+/* Nota en tab salsas */
+.salsas-note {
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(245, 230, 200, 0.45);
+  padding: 16px 20px 8px;
+  font-style: italic;
+}
+
 /* Nota de salsa en ticket */
 .ticket-salsa-note {
   font-size: 0.72rem;

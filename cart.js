@@ -164,12 +164,11 @@
   function getPizzaSalsas() {
     var opts = [];
     var seen = {};
-    document.querySelectorAll('#tab-salsas [data-add-cart]').forEach(function (btn) {
-      var n = btn.dataset.nombre;
-      var p = parseFloat(btn.dataset.precio) || 0;
+    document.querySelectorAll('#tab-salsas [data-salsa-nombre]').forEach(function (el) {
+      var n = el.dataset.salsaNombre;
       if (n && !seen[n]) {
         seen[n] = true;
-        opts.push({ nombre: n, precio: p });
+        opts.push({ nombre: n, precio: 500 });
       }
     });
     return opts;
