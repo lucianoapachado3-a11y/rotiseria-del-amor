@@ -178,6 +178,17 @@ async function loadComponentesItems(currentComponentes) {
   `).join('');
 }
 
+// Auto-completar nombre al seleccionar chips
+document.getElementById('ap-componentes-list').addEventListener('change', function (e) {
+  if (e.target.type !== 'checkbox') return;
+  const checked = Array.from(
+    document.querySelectorAll('#ap-componentes-list input[type="checkbox"]:checked')
+  ).map(cb => cb.value);
+  if (checked.length) {
+    document.getElementById('ap-nombre').value = 'Combo ' + checked.join(' + ');
+  }
+});
+
 function getComponentesValue() {
   return Array.from(
     document.querySelectorAll('#ap-componentes-list input[type="checkbox"]:checked')
