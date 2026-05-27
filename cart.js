@@ -222,9 +222,7 @@
         if (salsas.length) {
           var salsaOpts = salsas.map(function (s) {
             var sel = it.salsa && it.salsa.nombre === s.nombre ? ' selected' : '';
-            return '<option value="' + esc(s.nombre) + '"' + sel + '>' +
-              esc(s.nombre) + ' (+$' + fmt(s.precio) + ')' +
-            '</option>';
+            return '<option value="' + esc(s.nombre) + '"' + sel + '>' + esc(s.nombre) + '</option>';
           }).join('');
           salsaSection =
             '<div class="cart-salsa-wrap">' +
