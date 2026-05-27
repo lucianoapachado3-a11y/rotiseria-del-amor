@@ -126,10 +126,63 @@ function showInnerTab(name) {
 
 // ── Form ──────────────────────────────────────────────────────────────────────
 
-// Mostrar campo componentes solo para promos
+// Mostrar/ocultar campos según categoría
 document.getElementById('ap-categoria').addEventListener('change', function () {
-  document.getElementById('afield-componentes').hidden = this.value !== 'promo';
+  const isPromo = this.value === 'promo';
+  document.getElementById('afield-descripcion').hidden = isPromo;
+  if (isPromo) {
+    document.getElementById('afield-componentes').hidden = false;
+    loadComponentesItems('');
+  } else {
+    document.getElementById('afield-componentes').hidden = true;
+  }
 });
+
+async function loadComponentesItems(currentComponentes) {
+  const list = document.getElementById('ap-componentes-list');
+  list.innerHTML = '<p class="acomp-loading">Cargando ítems...</p>';
+
+  const { data, error } = await sbA.from('platos')
+    .select('nombre, categoria')
+    .eq('activo', true)
+    .not('categoria', 'eq', 'promo')
+    .order('categoria').order('nombre');
+
+  if (error || !data) {
+    list.innerHTML = '<p style="color:#C4364A;font-size:0.8rem">Error al cargar ítems</p>';
+    return;
+  }
+
+  const catNames = { clasicas: 'Clásicas', especiales: 'Especiales', compartir: 'Bandejas', salsas: 'Salsas' };
+  const groups = {};
+  data.forEach(p => {
+    if (!groups[p.categoria]) groups[p.categoria] = [];
+    groups[p.categoria].push(p.nombre);
+  });
+
+  const selected = currentComponentes
+    ? currentComponentes.split(',').map(s => s.trim().toLowerCase())
+    : [];
+
+  list.innerHTML = Object.entries(groups).filter(([, names]) => names.length).map(([cat, names]) => `
+    <div class="acomp-group">
+      <span class="acomp-group-label">${catNames[cat] || cat}</span>
+      <div class="acomp-chips">
+        ${names.map(nombre => {
+          const checked = selected.includes(nombre.toLowerCase()) ? ' checked' : '';
+          const safe = nombre.replace(/"/g, '&quot;');
+          return `<label class="acomp-chip"><input type="checkbox" value="${safe}"${checked}><span>${safe}</span></label>`;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function getComponentesValue() {
+  return Array.from(
+    document.querySelectorAll('#ap-componentes-list input[type="checkbox"]:checked')
+  ).map(cb => cb.value).join(', ');
+}
 
 document.getElementById('ap-imagen').addEventListener('change', e => {
   const file = e.target.files[0];
@@ -159,7 +212,7 @@ platoForm.addEventListener('submit', async e => {
       precio:       parseInt(document.getElementById('ap-precio').value, 10),
       badge:        document.getElementById('ap-badge').value.trim(),
       icono:        document.getElementById('ap-icono').value.trim(),
-      componentes:  categoria === 'promo' ? (document.getElementById('ap-componentes').value.trim() || null) : null,
+      componentes:  categoria === 'promo' ? (getComponentesValue() || null) : null,
       imagen_url,
     };
 
@@ -199,7 +252,9 @@ function resetAdminForm() {
   platoForm.reset();
   imgPreview.hidden = true;
   imgPreview.src    = '';
+  document.getElementById('afield-descripcion').hidden    = false;
   document.getElementById('afield-componentes').hidden    = true;
+  document.getElementById('ap-componentes-list').innerHTML = '';
   document.getElementById('admin-form-title').textContent = 'Nuevo plato';
   document.getElementById('admin-save-btn').textContent   = 'Guardar plato';
   document.getElementById('admin-cancel-btn').hidden      = true;
@@ -281,8 +336,9 @@ async function adminStartEdit(id) {
   document.getElementById('ap-precio').value        = p.precio;
   document.getElementById('ap-badge').value         = p.badge || '';
   document.getElementById('ap-icono').value         = p.icono || '';
-  document.getElementById('ap-componentes').value   = p.componentes || '';
-  document.getElementById('afield-componentes').hidden = p.categoria !== 'promo';
+  document.getElementById('afield-descripcion').hidden  = p.categoria === 'promo';
+  document.getElementById('afield-componentes').hidden  = p.categoria !== 'promo';
+  if (p.categoria === 'promo') loadComponentesItems(p.componentes || '');
 
   if (p.imagen_url) {
     imgPreview.src    = p.imagen_url;

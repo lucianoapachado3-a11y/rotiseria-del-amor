@@ -524,14 +524,13 @@
               </select>
             </div>
           </div>
-          <div class="afield">
+          <div class="afield" id="afield-descripcion">
             <label for="ap-descripcion">Descripción / Ingredientes</label>
             <input type="text" id="ap-descripcion" placeholder="Ej: Muzza, tomate, albahaca" />
           </div>
           <div class="afield" id="afield-componentes" hidden>
-            <label for="ap-componentes">Ítems que incluye <span class="ahint">(solo promos)</span></label>
-            <input type="text" id="ap-componentes" placeholder="Ej: Muzzarela, Napolitana" />
-            <small class="afield-hint">Nombres exactos separados por coma. El carrito detecta automáticamente si el cliente tiene esos ítems.</small>
+            <label>Ítems que incluye</label>
+            <div id="ap-componentes-list" class="acomp-list"></div>
           </div>
           <div class="aform-row">
             <div class="afield">

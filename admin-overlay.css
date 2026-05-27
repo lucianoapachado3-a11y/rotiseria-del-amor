@@ -169,6 +169,38 @@
   color: #8C4A5E;
   padding: 4px 0;
 }
+/* Componentes chips */
+.acomp-list { display: flex; flex-direction: column; gap: 10px; }
+.acomp-loading { font-size: 0.8rem; color: #A06070; }
+.acomp-group { display: flex; flex-direction: column; gap: 6px; }
+.acomp-group-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #A06070;
+}
+.acomp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.acomp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border: 1.5px solid #E8D0D5;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.acomp-chip:hover { border-color: #C4364A; background: #FFF0F2; }
+.acomp-chip input[type="checkbox"] { display: none; }
+.acomp-chip span { font-size: 0.82rem; color: #5A1A2A; }
+.acomp-chip:has(input:checked) {
+  background: #C4364A;
+  border-color: #C4364A;
+}
+.acomp-chip:has(input:checked) span { color: white; font-weight: 600; }
+
 .admin-img-preview {
   margin-top: 8px;
   max-width: 160px;
