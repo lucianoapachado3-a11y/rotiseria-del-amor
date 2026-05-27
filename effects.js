@@ -233,6 +233,38 @@
 
   /* ── 7. SCROLL PROGRESS (already in script.js, no-op) ── */
 
+  /* ── 8. SCROLL TRAPS — prevent Lenis eating wheel inside overlays ── */
+  function initScrollTraps() {
+    var selectors = [
+      '.amodal-card',
+      '.cart-items',
+      '.order-modal-body',
+    ];
+    // Use capture so we intercept before Lenis' window listener
+    selectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        el.addEventListener('wheel', function (e) {
+          var canDown = el.scrollTop < el.scrollHeight - el.clientHeight - 1;
+          var canUp   = el.scrollTop > 0;
+          if ((e.deltaY > 0 && canDown) || (e.deltaY < 0 && canUp)) {
+            e.stopPropagation();
+          }
+        }, { passive: true });
+      });
+    });
+
+    // Admin panel is injected dynamically — use delegation on document
+    document.addEventListener('wheel', function (e) {
+      var el = e.target.closest('.amodal-card');
+      if (!el) return;
+      var canDown = el.scrollTop < el.scrollHeight - el.clientHeight - 1;
+      var canUp   = el.scrollTop > 0;
+      if ((e.deltaY > 0 && canDown) || (e.deltaY < 0 && canUp)) {
+        e.stopPropagation();
+      }
+    }, { passive: true, capture: true });
+  }
+
   /* ── INIT ALL ─────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
     safe(initPreloader, 'preloader');
@@ -241,6 +273,7 @@
     safe(initMagnetic, 'magnetic');
     safe(initTicker, 'ticker');
     safe(initScrollTrigger, 'scrolltrigger');
+    safe(initScrollTraps, 'scrolltraps');
   });
 
 }());
