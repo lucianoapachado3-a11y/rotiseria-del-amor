@@ -7,6 +7,8 @@
   /* ── Estado ─────────────────────────────────────────── */
   var items = [];   // [{ id, nombre, precio, cantidad, categoria, mitad, salsa, selectingMitad }]
   var nextId = 1;
+  var pendingNewId  = null;   // ID del último ítem agregado (para animar entrada)
+  var prevBadgeQty  = 0;      // para detectar incremento en badge
 
   /* ── Helpers ─────────────────────────────────────────── */
   function esc(s) {
@@ -59,10 +61,13 @@
   /* ── Lógica del carrito ──────────────────────────────── */
   function addItem(nombre, precio, categoria) {
     var existing = items.find(function (i) { return i.nombre === nombre && !i.mitad; });
-    if (existing) { existing.cantidad++; }
-    else {
+    if (existing) {
+      existing.cantidad++;
+      pendingNewId = existing.id;
+    } else {
+      var newId = nextId++;
       items.push({
-        id: nextId++,
+        id: newId,
         nombre: nombre,
         precio: precio,
         cantidad: 1,
@@ -71,21 +76,34 @@
         salsa: null,
         selectingMitad: false
       });
+      pendingNewId = newId;
     }
     render();
     openCart();
   }
 
   function removeItem(id) {
-    items = items.filter(function (i) { return i.id !== id; });
-    render();
+    var el = itemsEl && itemsEl.querySelector('[data-cart-id="' + id + '"]');
+    if (el && !el.classList.contains('is-removing')) {
+      el.classList.add('is-removing');
+      setTimeout(function () {
+        items = items.filter(function (i) { return i.id !== id; });
+        render();
+      }, 190);
+    } else {
+      items = items.filter(function (i) { return i.id !== id; });
+      render();
+    }
   }
 
   function changeQty(id, delta) {
     var item = items.find(function (i) { return i.id === id; });
     if (!item) return;
     item.cantidad += delta;
-    if (item.cantidad <= 0) items = items.filter(function (i) { return i.id !== id; });
+    if (item.cantidad <= 0) {
+      removeItem(id);
+      return;
+    }
     render();
   }
 
@@ -261,7 +279,15 @@
     emptyEl.hidden = !empty;
     footerEl.hidden = empty;
 
-    if (empty) { itemsEl.innerHTML = ''; updateBadge(); return; }
+    if (empty) {
+      itemsEl.innerHTML = '';
+      // Animar aparición del estado vacío
+      emptyEl.style.animation = 'none';
+      void emptyEl.offsetWidth;
+      emptyEl.style.animation = 'cartEmptyIn 0.38s ease-out';
+      updateBadge();
+      return;
+    }
 
     itemsEl.innerHTML = items.map(function (it) {
       var nombre   = getDisplayName(it);
@@ -334,6 +360,17 @@
     }).join('');
 
     if (totalEl) totalEl.textContent = '$' + fmt(getTotal());
+
+    // Animar ítem recién agregado
+    if (pendingNewId !== null && itemsEl) {
+      var newEl = itemsEl.querySelector('[data-cart-id="' + pendingNewId + '"]');
+      if (newEl) {
+        newEl.classList.add('is-new');
+        setTimeout(function () { newEl.classList.remove('is-new'); }, 280);
+      }
+      pendingNewId = null;
+    }
+
     updateBadge();
     renderPromoSuggestions();
   }
@@ -343,6 +380,19 @@
     var qty = getTotalQty();
     badgeEl.textContent = qty;
     badgeEl.hidden = qty === 0;
+
+    // Bump animation cuando qty sube
+    if (qty > prevBadgeQty) {
+      badgeEl.classList.remove('is-bump');
+      void badgeEl.offsetWidth; // fuerza reflow para reiniciar animación
+      badgeEl.classList.add('is-bump');
+      badgeEl.addEventListener('animationend', function h() {
+        badgeEl.classList.remove('is-bump');
+        badgeEl.removeEventListener('animationend', h);
+      });
+    }
+    prevBadgeQty = qty;
+
     var btn = document.getElementById('cart-toggle');
     if (btn) btn.setAttribute('aria-label', 'Ver pedido (' + qty + ' items)');
   }

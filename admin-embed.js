@@ -123,9 +123,16 @@ document.querySelectorAll('.admin-inner-tab').forEach(btn => {
 
 function showInnerTab(name) {
   document.querySelectorAll('.admin-inner-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.admin-tab-panel').forEach(p => { p.hidden = true; });
+  document.querySelectorAll('.admin-tab-panel').forEach(p => {
+    p.hidden = true;
+    p.classList.remove('admin-tab-panel-active');
+  });
   document.querySelector(`[data-atab="${name}"]`).classList.add('active');
-  document.getElementById('atab-' + name).hidden = false;
+  const panel = document.getElementById('atab-' + name);
+  panel.hidden = false;
+  // Force reflow so animation restarts each switch
+  void panel.offsetWidth;
+  panel.classList.add('admin-tab-panel-active');
 }
 
 // ── Form ──────────────────────────────────────────────────────────────────────
@@ -238,6 +245,12 @@ platoForm.addEventListener('submit', async e => {
       const { error } = await sbA.from('platos').insert(plato);
       if (error) throw error;
     }
+
+    // Flash de éxito en el botón antes de resetear
+    saveBtn.textContent = '✓ Guardado';
+    saveBtn.classList.add('is-saved');
+    await new Promise(r => setTimeout(r, 520));
+    saveBtn.classList.remove('is-saved');
 
     resetAdminForm();
     showInnerTab('lista');

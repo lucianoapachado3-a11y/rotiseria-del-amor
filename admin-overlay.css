@@ -428,6 +428,69 @@ button.admin-footer-trigger {
 button.admin-footer-trigger:hover { opacity: 0.7; }
 button.admin-footer-trigger:focus-visible { outline: 1px solid rgba(255,255,255,0.5); outline-offset: 4px; }
 
+/* ── ADMIN ANIMATIONS ─────────────────────────────────── */
+@keyframes adminItemIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.admin-lista-item {
+  animation: adminItemIn 0.2s ease-out both;
+}
+.admin-lista-item:nth-child(2) { animation-delay: 0.05s; }
+.admin-lista-item:nth-child(3) { animation-delay: 0.10s; }
+.admin-lista-item:nth-child(4) { animation-delay: 0.15s; }
+.admin-lista-item:nth-child(5) { animation-delay: 0.18s; }
+.admin-lista-item:nth-child(n+6) { animation-delay: 0.20s; }
+
+@keyframes adminTabIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Tab content fade when switching */
+.admin-tab-panel-active { animation: adminTabIn 0.2s ease-out; }
+
+/* Button press states */
+.amodal-btn-primary:active   { transform: scale(0.96); transition: transform 0.08s ease-in; }
+.amodal-btn-secondary:active { transform: scale(0.96); transition: transform 0.08s ease-in; }
+.admin-btn-edit:active   { transform: scale(0.93); transition: transform 0.08s ease-in; }
+.admin-btn-toggle:active { transform: scale(0.93); transition: transform 0.08s ease-in; }
+.admin-btn-delete:active { transform: scale(0.93); transition: transform 0.08s ease-in; }
+
+/* Chip press & selected transition */
+.acomp-chip {
+  transition: border-color 0.15s, background 0.15s, transform 0.12s ease-out;
+}
+.acomp-chip:active { transform: scale(0.92); transition: transform 0.07s ease-in; }
+
+/* FAB active state */
+.admin-fab:active { transform: translateY(0) scale(0.97); transition: transform 0.08s ease-in; }
+
+/* Form field focus glow */
+.afield input:focus,
+.afield select:focus {
+  outline: none;
+  border-color: #C4364A;
+  box-shadow: 0 0 0 3px rgba(196, 54, 74, 0.14);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Save success flash on primary btn */
+@keyframes adminSaveFlash {
+  0%   { box-shadow: 0 0 0 0   rgba(60, 180, 80, 0.7); }
+  60%  { box-shadow: 0 0 0 8px rgba(60, 180, 80, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(60, 180, 80, 0); }
+}
+.amodal-btn-primary.is-saved {
+  background: #3c9e50;
+  animation: adminSaveFlash 0.5s ease-out;
+}
+
+/* Inner tab active highlight */
+.admin-inner-tab {
+  transition: all 0.18s ease-out;
+}
+.admin-inner-tab:active { transform: scale(0.95); }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 600px) {
   .amodal-overlay:not([hidden]) {
