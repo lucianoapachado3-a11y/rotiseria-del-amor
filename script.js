@@ -19,7 +19,6 @@ function renderPizzaCard(p) {
     ? `<img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="300" height="180" loading="lazy">`
     : `<div class="pizza-placeholder" aria-hidden="true">🍕</div>`;
   const badge  = p.badge ? `<span class="pizza-badge">${escapeHtml(p.badge)}</span>` : '';
-  const waMsg  = encodeURIComponent(`Hola! Quiero pedir una ${p.nombre}`);
   const precio = (p.precio ?? 0).toLocaleString('es-AR');
   return `<article class="pizza-card">
       <div class="pizza-card-img">${img}${badge}</div>
@@ -30,7 +29,7 @@ function renderPizzaCard(p) {
         <div class="pizza-desc-wrap"><div class="pizza-desc">${escapeHtml(p.descripcion)}</div></div>
         <div class="pizza-footer">
           <div class="pizza-price">$${precio}</div>
-          <a href="https://wa.me/5491171404663?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="pizza-order-btn">Pedir ↗</a>
+          <button class="pizza-order-btn" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}" data-categoria="pizza">Agregar +</button>
         </div>
       </div>
     </article>`;
@@ -40,7 +39,6 @@ function renderPromoCard(p) {
   const img    = p.imagen_url
     ? `<div class="promo-card-img"><img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="500" height="300" loading="lazy"></div>`
     : '';
-  const waMsg  = encodeURIComponent(`Hola! Quiero la promo ${p.nombre}`);
   const precio = (p.precio ?? 0).toLocaleString('es-AR');
   return `<div class="promo-card">
     ${img}
@@ -48,13 +46,33 @@ function renderPromoCard(p) {
       <div class="promo-title">${escapeHtml(p.nombre)}</div>
       <div class="promo-desc">${escapeHtml(p.descripcion)}</div>
       <div class="promo-price"><sup>$</sup>${precio}</div>
-      <a href="https://wa.me/5491171404663?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="promo-cta">Quiero esta promo</a>
+      <button class="promo-cta" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}">Agregar al pedido +</button>
     </div>
   </div>`;
 }
 
+function renderSalsaCard(p) {
+  const img   = p.imagen_url
+    ? `<img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="300" height="180" loading="lazy">`
+    : `<div class="pizza-placeholder" aria-hidden="true">🧄</div>`;
+  const badge  = p.badge ? `<span class="pizza-badge">${escapeHtml(p.badge)}</span>` : '';
+  const precio = (p.precio ?? 0).toLocaleString('es-AR');
+  return `<article class="pizza-card">
+      <div class="pizza-card-img">${img}${badge}</div>
+      <div class="pizza-card-body">
+        <button class="pizza-toggle" aria-expanded="false" aria-label="Ver detalle de ${escapeHtml(p.nombre)}">
+          <span class="pizza-name">${escapeHtml(p.nombre)}</span>${ARROW}
+        </button>
+        <div class="pizza-desc-wrap"><div class="pizza-desc">${escapeHtml(p.descripcion)}</div></div>
+        <div class="pizza-footer">
+          <div class="pizza-price">$${precio}</div>
+          <button class="pizza-order-btn" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}">Agregar +</button>
+        </div>
+      </div>
+    </article>`;
+}
+
 function renderCompartirCard(p) {
-  const waMsg  = encodeURIComponent(`Hola! Quiero pedir ${p.nombre}`);
   const precio = (p.precio ?? 0).toLocaleString('es-AR');
   return `<div class="compartir-card">
       <div class="icon" aria-hidden="true">${p.icono || '🍽️'}</div>
@@ -64,7 +82,7 @@ function renderCompartirCard(p) {
       <div class="pizza-desc-wrap"><div class="pizza-desc">${escapeHtml(p.descripcion)}</div></div>
       <p>Para compartir entre 4</p>
       <div class="price">$${precio}</div>
-      <a href="https://wa.me/5491171404663?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="pizza-order-btn">Pedir ↗</a>
+      <button class="pizza-order-btn" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}">Agregar +</button>
     </div>`;
 }
 
@@ -92,17 +110,20 @@ async function loadMenu() {
     setContent(document.querySelector('#tab-clasicas .pizza-grid'), err);
     setContent(document.querySelector('#tab-especiales .pizza-grid'), err);
     setContent(document.querySelector('#tab-compartir .compartir-grid'), err);
+    setContent(document.querySelector('#tab-salsas .pizza-grid'), err);
     return;
   }
 
   const clasicas   = data.filter(p => p.categoria === 'clasicas');
   const especiales = data.filter(p => p.categoria === 'especiales');
   const compartir  = data.filter(p => p.categoria === 'compartir');
+  const salsas     = data.filter(p => p.categoria === 'salsas');
   const promos     = data.filter(p => p.categoria === 'promo');
 
   setContent(document.querySelector('#tab-clasicas .pizza-grid'),      clasicas.length   ? clasicas.map(renderPizzaCard).join('')      : empty);
   setContent(document.querySelector('#tab-especiales .pizza-grid'),    especiales.length ? especiales.map(renderPizzaCard).join('')    : empty);
   setContent(document.querySelector('#tab-compartir .compartir-grid'), compartir.length  ? compartir.map(renderCompartirCard).join('') : empty);
+  setContent(document.querySelector('#tab-salsas .pizza-grid'),        salsas.length     ? salsas.map(renderSalsaCard).join('')        : empty);
 
   const promosGrid = document.getElementById('promos-grid');
   if (promosGrid) {
@@ -125,11 +146,11 @@ function revealCards(panel) {
     el.style.transition = 'none';
     el.style.opacity    = '0';
     el.style.transform  = 'translateY(20px)';
-    setTimeout(() => {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
       el.style.transition = `opacity 0.4s ease ${i * 0.07}s, transform 0.4s ease ${i * 0.07}s`;
       el.style.opacity    = '1';
       el.style.transform  = 'translateY(0)';
-    }, 10);
+    }));
   });
 }
 
@@ -190,6 +211,19 @@ document.querySelectorAll('.horario-card, .contact-card, .feature-item').forEach
   el.style.opacity   = '0';
   el.style.transform = 'translateY(24px)';
   el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+
+// Section headings scroll reveal (menú, promos, horarios, contacto)
+document.querySelectorAll(
+  '.menu-header .section-tag, .menu-header .section-title,' +
+  '.promos-header .section-tag, .promos-header .section-title,' +
+  '.horarios-text .section-tag, .horarios-text .section-title,' +
+  '.contacto-inner .section-tag, .contacto-inner .section-title'
+).forEach(el => {
+  el.style.opacity    = '0';
+  el.style.transform  = 'translateY(16px)';
+  el.style.transition = 'opacity 0.38s ease-out, transform 0.38s ease-out';
   observer.observe(el);
 });
 

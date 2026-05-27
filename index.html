@@ -25,7 +25,7 @@
   <link rel="preload" as="font" href="fonts/font-0.woff2" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="fonts/fonts.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20260530" />
   <link rel="preload" as="image" href="uploads/logo-opt.webp" type="image/webp" fetchpriority="high" />
   <link rel="preload" as="image" href="uploads/pizza-prof-aceitunas.webp" type="image/webp" imagesrcset="uploads/pizza-prof-aceitunas-sm.webp 315w, uploads/pizza-prof-aceitunas.webp 600w" imagesizes="(max-width:768px) 130px, 200px" fetchpriority="high" />
   <link rel="canonical" href="https://rotiseriadelamor.netlify.app/" />
@@ -72,11 +72,32 @@
 <body>
   <div id="scroll-progress" aria-hidden="true"></div>
 
+  <!-- PRELOADER -->
+  <div id="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <picture>
+        <source type="image/webp" srcset="uploads/logo-opt.webp" />
+        <img src="uploads/logo-opt.jpg" alt="" class="preloader-logo" width="80" height="80" />
+      </picture>
+      <div class="preloader-bar"><div class="preloader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- CURSOR -->
+  <div data-cursor-root aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+  </div>
+
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">
       <span>Pizzería del Amor</span>
     </a>
+    <button id="cart-toggle" class="cart-toggle-btn" aria-label="Ver pedido (0 items)" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zm-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.88 4H5.21L4.27 2H1v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.13 0-.25-.11-.25-.25l.03-.12.9-1.63H19z"/></svg>
+      <span class="cart-badge" id="cart-badge" hidden>0</span>
+    </button>
     <button class="nav-hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
       <span></span><span></span><span></span>
     </button>
@@ -85,7 +106,7 @@
       <li><a href="#menu">Menú</a></li>
       <li><a href="#promos">Promos</a></li>
       <li><a href="#horarios">Horarios</a></li>
-      <li><a href="https://wa.me/5491171404663?text=Hola!%20Quiero%20hacer%20un%20pedido" target="_blank" rel="noopener noreferrer" class="nav-cta">Pedir ahora</a></li>
+      <li><button class="nav-cta" data-cart-open>Pedir ahora</button></li>
     </ul>
   </nav>
 
@@ -133,11 +154,11 @@
       </div>
       <p class="hero-sub">Pizza artesanal con delivery en Marcos Paz. Masa casera, ingredientes frescos y horno bien caliente. Pedís por WhatsApp y te la llevamos.</p>
       <div class="hero-btns">
-        <a href="https://wa.me/5491171404663?text=Hola!%20Quiero%20hacer%20un%20pedido" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <button class="btn-whatsapp" data-cart-open data-magnetic>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zm-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.88 4H5.21L4.27 2H1v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.13 0-.25-.11-.25-.25l.03-.12.9-1.63H19z"/></svg>
           Hacer mi pedido
-        </a>
-        <a href="#menu" class="btn-menu">Ver el menú →</a>
+        </button>
+        <a href="#menu" class="btn-menu" data-magnetic>Ver el menú →</a>
       </div>
     </div>
 
@@ -224,6 +245,7 @@
         <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-clasicas" data-tab="clasicas">Pizzas Clásicas</button>
         <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-especiales" data-tab="especiales">Pizzas Especiales</button>
         <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-compartir" data-tab="compartir">Bandejas para Compartir</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-salsas" data-tab="salsas">Salsas</button>
       </div>
     </div>
 
@@ -259,6 +281,16 @@
         </div>
       </div>
       <p class="compartir-note">Porciones pensadas para 4 personas · Ideal para una noche en familia</p>
+    </div>
+
+    <!-- SALSAS -->
+    <div id="tab-salsas" class="menu-panel" role="tabpanel" tabindex="0">
+      <div class="pizza-grid">
+        <div class="skeleton-grid" aria-hidden="true">
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line title"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line price"></div></div></div>
+          <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line title"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line price"></div></div></div>
+        </div>
+      </div>
     </div>
 
     <div class="admin-menu-bar">
@@ -350,10 +382,73 @@
 
   <!-- MOBILE STICKY CTA -->
   <div class="mobile-cta-bar">
-    <a href="https://wa.me/5491171404663?text=Hola!%20Quiero%20hacer%20un%20pedido" target="_blank" rel="noopener noreferrer">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <button data-cart-open>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zm-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.88 4H5.21L4.27 2H1v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.13 0-.25-.11-.25-.25l.03-.12.9-1.63H19z"/></svg>
       Hacer mi pedido
-    </a>
+    </button>
+  </div>
+
+  <!-- CART OVERLAY -->
+  <div id="cart-overlay" class="cart-overlay" hidden aria-hidden="true"></div>
+
+  <!-- CART SIDEBAR -->
+  <aside id="cart-sidebar" class="cart-sidebar" hidden aria-label="Tu pedido">
+    <div class="cart-header">
+      <h2 class="cart-title">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zm-1.45-5c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 19.88 4H5.21L4.27 2H1v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.13 0-.25-.11-.25-.25l.03-.12.9-1.63H19z"/></svg>
+        Tu pedido
+      </h2>
+      <button id="cart-close" class="cart-close-btn" aria-label="Cerrar carrito">×</button>
+    </div>
+    <div id="cart-items" class="cart-items"></div>
+    <div id="cart-empty" class="cart-empty">
+      <span aria-hidden="true">🛒</span>
+      <p>Tu pedido está vacío</p>
+      <small>Agregá pizzas, salsas o promos<br>desde el menú</small>
+    </div>
+    <div id="cart-footer" class="cart-footer" hidden>
+      <div class="cart-total-row">
+        <span>Total estimado</span>
+        <strong id="cart-total">$0</strong>
+      </div>
+      <div class="cart-payment-select" role="group" aria-label="Forma de pago">
+        <label class="payment-pill">
+          <input type="radio" name="cart-payment" value="efectivo" checked />
+          <span>💵 Efectivo</span>
+        </label>
+        <label class="payment-pill">
+          <input type="radio" name="cart-payment" value="transferencia" />
+          <span>📱 Transferencia</span>
+        </label>
+      </div>
+      <button id="cart-confirm-btn" class="cart-confirm-btn">Ver mi pedido →</button>
+    </div>
+  </aside>
+
+  <!-- ORDER MODAL -->
+  <div id="order-modal" class="order-modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+    <div class="order-modal-card">
+      <div class="order-modal-header">
+        <h3 id="order-modal-title">Resumen del pedido</h3>
+        <button id="order-modal-close" class="order-modal-close" aria-label="Cerrar">×</button>
+      </div>
+      <div class="order-modal-body">
+        <div class="ticket-header">
+          <div class="ticket-logo">D'amoor</div>
+          <div class="ticket-subtitle">Pizzería artesanal · Marcos Paz</div>
+          <div class="ticket-date" id="ticket-date"></div>
+        </div>
+        <div class="ticket-dots"></div>
+        <div id="order-ticket" class="order-ticket"></div>
+      </div>
+      <div class="order-modal-footer">
+        <button id="order-edit-btn" class="order-edit-btn">← Editar</button>
+        <a id="order-wa-btn" href="#" target="_blank" rel="noopener noreferrer" class="order-wa-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Enviar pedido por WhatsApp
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- FOOTER -->
@@ -422,6 +517,7 @@
                 <option value="clasicas">Pizzas Clásicas</option>
                 <option value="especiales">Pizzas Especiales</option>
                 <option value="compartir">Bandejas para Compartir</option>
+                <option value="salsas">Salsas</option>
                 <option value="promo">Promo</option>
               </select>
             </div>
@@ -462,8 +558,13 @@
       </div>
     </div>
   </div>
+  <script src="lib/gsap.min.js?v=20260526" defer></script>
+  <script src="lib/ScrollTrigger.min.js?v=20260526" defer></script>
+  <script src="lib/lenis.min.js?v=20260526" defer></script>
+  <script src="effects.js?v=20260526" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
-  <script src="script.js" defer></script>
+  <script src="script.js?v=20260529" defer></script>
+  <script src="cart.js?v=20260530" defer></script>
   <script src="admin-embed.js" defer></script>
 
 </body>
