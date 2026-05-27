@@ -37,6 +37,7 @@
       if (overlay) overlay.classList.add('is-open');
     });
     document.body.style.overflow = 'hidden';
+    if (window.__lenis) window.__lenis.stop();
     var toggle = document.getElementById('cart-toggle');
     if (toggle) toggle.setAttribute('aria-expanded', 'true');
   }
@@ -46,6 +47,7 @@
     sidebar.classList.remove('is-open');
     if (overlay) overlay.classList.remove('is-open');
     document.body.style.overflow = '';
+    if (window.__lenis) window.__lenis.start();
     var toggle = document.getElementById('cart-toggle');
     if (toggle) toggle.setAttribute('aria-expanded', 'false');
     setTimeout(function () {

@@ -44,23 +44,27 @@ adminFab.addEventListener('click', openPanel);
 function openLogin() {
   loginModal.hidden = false;
   document.body.style.overflow = 'hidden';
+  if (window.__lenis) window.__lenis.stop();
   document.getElementById('al-email').focus();
 }
 
 function closeLogin() {
   loginModal.hidden = true;
   document.body.style.overflow = '';
+  if (window.__lenis) window.__lenis.start();
 }
 
 function openPanel() {
   panelModal.hidden = false;
   document.body.style.overflow = 'hidden';
+  if (window.__lenis) window.__lenis.stop();
   loadAdminLista();
 }
 
 function closePanel() {
   panelModal.hidden = true;
   document.body.style.overflow = '';
+  if (window.__lenis) window.__lenis.start();
   resetAdminForm();
 }
 
