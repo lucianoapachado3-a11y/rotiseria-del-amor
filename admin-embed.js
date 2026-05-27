@@ -185,7 +185,7 @@ document.getElementById('ap-componentes-list').addEventListener('change', functi
     document.querySelectorAll('#ap-componentes-list input[type="checkbox"]:checked')
   ).map(cb => cb.value);
   if (checked.length) {
-    document.getElementById('ap-nombre').value = 'Combo ' + checked.join(' + ');
+    document.getElementById('ap-nombre').value = 'Promo ' + checked.join(' + ');
   }
 });
 
