@@ -245,6 +245,50 @@
 
 /* ── LISTA ── */
 .admin-lista-cat      { margin-bottom: 18px; }
+
+/* Drag & drop promos */
+.admin-promo-dnd {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.admin-dnd-col {
+  border: 2px dashed #E8D0D5;
+  border-radius: 12px;
+  padding: 10px;
+  min-height: 80px;
+  transition: border-color 0.15s, background 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.admin-dnd-col.drag-over {
+  border-color: #C4364A;
+  background: #FFF0F2;
+}
+.admin-dnd-col-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #A06070;
+  margin-bottom: 4px;
+}
+.admin-dnd-empty {
+  font-size: 0.78rem;
+  color: #C0A0A8;
+  text-align: center;
+  padding: 12px 0;
+}
+.admin-dnd-item { cursor: grab; }
+.admin-dnd-item.is-dragging { opacity: 0.4; cursor: grabbing; }
+.admin-dnd-handle {
+  color: #C0A0A8;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+}
 .admin-lista-cat h4 {
   font-size: 0.7rem;
   font-weight: 700;

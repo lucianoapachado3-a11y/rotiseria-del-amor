@@ -286,17 +286,75 @@ async function loadAdminLista() {
   renderAdminLista(data || []);
 }
 
-const ADMIN_CAT = { clasicas: 'Pizzas Clásicas', especiales: 'Pizzas Especiales', compartir: 'Para Compartir', salsas: 'Salsas', promo: 'Promos' };
+const ADMIN_CAT = { clasicas: 'Pizzas Clásicas', especiales: 'Pizzas Especiales', compartir: 'Para Compartir', salsas: 'Salsas' };
+
+function renderAdminPromoItem(p) {
+  const thumb = p.imagen_url
+    ? `<img src="${p.imagen_url}" alt="${p.nombre}" class="admin-item-thumb">`
+    : `<div class="admin-item-placeholder">🎉</div>`;
+  return `<div class="admin-lista-item ${p.activo ? '' : 'inactivo'} admin-dnd-item" draggable="true" data-promo-drag="${p.id}">
+    <span class="admin-dnd-handle" aria-hidden="true">⠿</span>
+    ${thumb}
+    <div class="admin-item-info">
+      <strong>${p.nombre}</strong>
+      <span>$${p.precio.toLocaleString('es-AR')}</span>
+    </div>
+    <div class="admin-item-actions">
+      <button data-aedit="${p.id}" class="admin-btn-edit">Editar</button>
+      <button data-atoggle="${p.id}" data-aactivo="${p.activo}" class="admin-btn-toggle">${p.activo ? 'Ocultar' : 'Mostrar'}</button>
+      <button data-adelete="${p.id}" class="admin-btn-delete">✕</button>
+    </div>
+  </div>`;
+}
+
+let draggedPromoId = null;
+
+function initPromoDnD() {
+  listaDiv.addEventListener('dragstart', e => {
+    const item = e.target.closest('[data-promo-drag]');
+    if (!item) return;
+    draggedPromoId = item.dataset.promoDrag;
+    item.classList.add('is-dragging');
+  });
+  listaDiv.addEventListener('dragend', e => {
+    document.querySelectorAll('.admin-dnd-item').forEach(el => el.classList.remove('is-dragging'));
+    document.querySelectorAll('.admin-dnd-col').forEach(col => col.classList.remove('drag-over'));
+  });
+  listaDiv.addEventListener('dragover', e => {
+    const col = e.target.closest('.admin-dnd-col');
+    if (!col) return;
+    e.preventDefault();
+    document.querySelectorAll('.admin-dnd-col').forEach(c => c.classList.remove('drag-over'));
+    col.classList.add('drag-over');
+  });
+  listaDiv.addEventListener('dragleave', e => {
+    const col = e.target.closest('.admin-dnd-col');
+    if (col && !col.contains(e.relatedTarget)) col.classList.remove('drag-over');
+  });
+  listaDiv.addEventListener('drop', async e => {
+    const col = e.target.closest('.admin-dnd-col');
+    if (!col || !draggedPromoId) return;
+    e.preventDefault();
+    col.classList.remove('drag-over');
+    const newSeccion = col.dataset.seccion;
+    const { error } = await sbA.from('platos').update({ seccion: newSeccion }).eq('id', draggedPromoId);
+    draggedPromoId = null;
+    if (error) { alert('Error: ' + error.message); return; }
+    loadAdminLista();
+    if (typeof loadMenu === 'function') loadMenu();
+  });
+}
 
 function renderAdminLista(platos) {
   if (!platos.length) {
     listaDiv.innerHTML = '<p style="text-align:center;padding:20px;color:#9A7055;font-size:0.85rem">No hay platos. ¡Agregá el primero!</p>';
     return;
   }
-  const bycat = { clasicas: [], especiales: [], compartir: [], salsas: [], promo: [] };
+  const bycat = { clasicas: [], especiales: [], compartir: [], salsas: [] };
+  const promos = platos.filter(p => p.categoria === 'promo');
   platos.forEach(p => { if (bycat[p.categoria]) bycat[p.categoria].push(p); });
 
-  listaDiv.innerHTML = Object.entries(bycat)
+  const regularHTML = Object.entries(bycat)
     .filter(([, items]) => items.length)
     .map(([cat, items]) => `
       <div class="admin-lista-cat">
@@ -304,6 +362,28 @@ function renderAdminLista(platos) {
         <div class="admin-lista-items">${items.map(renderAdminItem).join('')}</div>
       </div>
     `).join('');
+
+  const pClasicas   = promos.filter(p => !p.seccion || p.seccion === 'clasicas');
+  const pEspeciales = promos.filter(p => p.seccion === 'especiales');
+  const dndEmpty    = '<p class="admin-dnd-empty">Arrastrá promos acá</p>';
+  const promosHTML  = promos.length ? `
+    <div class="admin-lista-cat">
+      <h4>Promos</h4>
+      <div class="admin-promo-dnd">
+        <div class="admin-dnd-col" data-seccion="clasicas">
+          <div class="admin-dnd-col-title">Clásicas</div>
+          ${pClasicas.map(renderAdminPromoItem).join('') || dndEmpty}
+        </div>
+        <div class="admin-dnd-col" data-seccion="especiales">
+          <div class="admin-dnd-col-title">Especiales</div>
+          ${pEspeciales.map(renderAdminPromoItem).join('') || dndEmpty}
+        </div>
+      </div>
+    </div>
+  ` : '';
+
+  listaDiv.innerHTML = regularHTML + promosHTML;
+  initPromoDnD();
 
   listaDiv.querySelectorAll('[data-aedit]').forEach(btn =>
     btn.addEventListener('click', () => adminStartEdit(btn.dataset.aedit))

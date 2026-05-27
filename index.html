@@ -309,9 +309,14 @@
         <span class="section-tag">Ofertas especiales</span>
         <h2 class="section-title">Promos que <em>enamoran</em></h2>
       </div>
-      <div class="promos-grid" id="promos-grid">
+      <div class="promos-tabs-bar">
+        <button class="promo-tab-btn active" data-ptab="clasicas">Clásicas</button>
+        <button class="promo-tab-btn" data-ptab="especiales">Especiales</button>
+      </div>
+      <div class="promos-grid" id="promos-grid-clasicas">
         <p style="text-align:center;padding:40px;color:rgba(255,255,255,0.45)">Cargando promos...</p>
       </div>
+      <div class="promos-grid" id="promos-grid-especiales" hidden></div>
     </div>
   </section>
 

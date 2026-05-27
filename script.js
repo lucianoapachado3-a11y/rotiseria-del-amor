@@ -122,16 +122,21 @@ async function loadMenu() {
 
   window.__menuPromos = promos; // expose for cart promo detection
 
-  const promosGrid = document.getElementById('promos-grid');
-  if (promosGrid) {
-    promosGrid.innerHTML = promos.length
-      ? promos.map(renderPromoCard).join('')
-      : '<p style="text-align:center;padding:40px;color:rgba(245,230,200,0.45)">No hay promos activas por el momento.</p>';
-    promosGrid.querySelectorAll('.promo-card').forEach(el => {
-      el.style.opacity   = '0';
-      el.style.transform = 'translateY(24px)';
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      observer.observe(el);
+  const gridClasicas   = document.getElementById('promos-grid-clasicas');
+  const gridEspeciales = document.getElementById('promos-grid-especiales');
+  if (gridClasicas && gridEspeciales) {
+    const pClasicas   = promos.filter(p => !p.seccion || p.seccion === 'clasicas');
+    const pEspeciales = promos.filter(p => p.seccion === 'especiales');
+    const empty = '<p style="text-align:center;padding:40px;color:rgba(245,230,200,0.45)">No hay promos en esta sección.</p>';
+    gridClasicas.innerHTML   = pClasicas.length   ? pClasicas.map(renderPromoCard).join('')   : empty;
+    gridEspeciales.innerHTML = pEspeciales.length ? pEspeciales.map(renderPromoCard).join('') : empty;
+    [gridClasicas, gridEspeciales].forEach(grid => {
+      grid.querySelectorAll('.promo-card').forEach(el => {
+        el.style.opacity    = '0';
+        el.style.transform  = 'translateY(24px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+      });
     });
   }
 
@@ -246,5 +251,18 @@ if (scrollProgress) {
     scrollProgress.style.transform = 'scaleX(' + (total > 0 ? window.scrollY / total : 0) + ')';
   }, { passive: true });
 }
+
+// Promo tab switching
+document.querySelectorAll('.promo-tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.promo-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.ptab;
+    const gc = document.getElementById('promos-grid-clasicas');
+    const ge = document.getElementById('promos-grid-especiales');
+    if (gc) gc.hidden = tab !== 'clasicas';
+    if (ge) ge.hidden = tab !== 'especiales';
+  });
+});
 
 loadMenu();
