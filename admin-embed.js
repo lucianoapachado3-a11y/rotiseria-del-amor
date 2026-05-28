@@ -42,27 +42,13 @@ adminFab.addEventListener('click', openPanel);
 // ── Open / Close ──────────────────────────────────────────────────────────────
 
 function lockBodyScroll() {
-  const scrollY = window.scrollY;
-  document.body.dataset.lockScrollY = scrollY;
-  document.body.style.overflow  = 'hidden';
-  document.body.style.position  = 'fixed';
-  document.body.style.top       = '-' + scrollY + 'px';
-  document.body.style.width     = '100%';
+  document.body.style.overflow = 'hidden';
   if (window.__lenis) window.__lenis.stop();
 }
 
 function unlockBodyScroll() {
-  const scrollY = parseInt(document.body.dataset.lockScrollY || '0', 10);
-  document.body.style.overflow  = '';
-  document.body.style.position  = '';
-  document.body.style.top       = '';
-  document.body.style.width     = '';
-  if (window.__lenis) {
-    window.__lenis.start();
-    window.__lenis.scrollTo(scrollY, { immediate: true });
-  } else {
-    window.scrollTo(0, scrollY);
-  }
+  document.body.style.overflow = '';
+  if (window.__lenis) window.__lenis.start();
 }
 
 function openLogin() {

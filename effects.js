@@ -235,34 +235,26 @@
 
   /* ── 8. SCROLL TRAPS — prevent Lenis eating wheel inside overlays ── */
   function initScrollTraps() {
-    var selectors = [
-      '.amodal-card',
-      '.cart-items',
-      '.order-modal-body',
-    ];
-    // Use capture so we intercept before Lenis' window listener
-    selectors.forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        el.addEventListener('wheel', function (e) {
-          var canDown = el.scrollTop < el.scrollHeight - el.clientHeight - 1;
-          var canUp   = el.scrollTop > 0;
-          if ((e.deltaY > 0 && canDown) || (e.deltaY < 0 && canUp)) {
-            e.stopPropagation();
-          }
-        }, { passive: true });
-      });
-    });
-
-    // Admin panel is injected dynamically — use delegation on document
+    // Non-passive capture listener: fires before Lenis, can call preventDefault()
+    // to fully own the scroll within modal containers.
     document.addEventListener('wheel', function (e) {
-      var el = e.target.closest('.amodal-card');
+      var el = e.target.closest('.amodal-card, .cart-items, .order-modal-body');
       if (!el) return;
+
+      // Normalize deltaY across deltaMode values
+      var delta = e.deltaY;
+      if (e.deltaMode === 1) delta *= 32;
+      if (e.deltaMode === 2) delta *= el.clientHeight;
+
       var canDown = el.scrollTop < el.scrollHeight - el.clientHeight - 1;
       var canUp   = el.scrollTop > 0;
-      if ((e.deltaY > 0 && canDown) || (e.deltaY < 0 && canUp)) {
+
+      if ((delta > 0 && canDown) || (delta < 0 && canUp)) {
+        e.preventDefault();
         e.stopPropagation();
+        el.scrollTop += delta;
       }
-    }, { passive: true, capture: true });
+    }, { passive: false, capture: true });
   }
 
   /* ── INIT ALL ─────────────────────────────────────────── */

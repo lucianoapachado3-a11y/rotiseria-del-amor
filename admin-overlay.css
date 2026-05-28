@@ -12,6 +12,7 @@
   padding: 20px;
   backdrop-filter: blur(4px);
   animation: aFadeIn 0.2s ease;
+  touch-action: none; /* evita rubber-band scroll del fondo en iOS */
 }
 
 @keyframes aFadeIn {
@@ -27,6 +28,9 @@
   max-width: 430px;
   max-height: 90vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   padding: 36px 32px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   position: relative;
