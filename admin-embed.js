@@ -3,7 +3,7 @@
 (function () {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = 'admin-overlay.css';
+  link.href = 'admin-overlay.css?v=20260534';
   document.head.appendChild(link);
 })();
 
@@ -42,8 +42,10 @@ adminFab.addEventListener('click', openPanel);
 // ── Open / Close ──────────────────────────────────────────────────────────────
 
 function lockBodyScroll() {
-  document.body.style.overflow = 'hidden';
   if (window.__lenis) window.__lenis.stop();
+  if (!('ontouchstart' in window)) {
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 function unlockBodyScroll() {
