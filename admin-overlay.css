@@ -12,7 +12,6 @@
   padding: 20px;
   backdrop-filter: blur(4px);
   animation: aFadeIn 0.2s ease;
-  touch-action: none; /* evita rubber-band scroll del fondo en iOS */
 }
 
 @keyframes aFadeIn {
@@ -501,12 +500,15 @@ button.admin-footer-trigger:focus-visible { outline: 1px solid rgba(255,255,255,
     align-items: flex-end;
     padding: 0;
   }
+  /* Bottom-sheet con altura fija: iOS necesita height (no solo max-height)
+     para reconocer el elemento como scroll container táctil */
   .amodal-card {
     border-radius: 24px 24px 0 0;
+    height: 92vh;
     max-height: 92vh;
-    padding: 26px 18px;
-    /* Momentum scrolling en iOS */
+    padding: 22px 16px 28px;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
   }
   .aform-row { grid-template-columns: 1fr; }
   .admin-fab { bottom: 20px; left: 16px; padding: 10px 15px; }
@@ -518,6 +520,7 @@ button.admin-footer-trigger:focus-visible { outline: 1px solid rgba(255,255,255,
   .afield input[type="number"],
   .afield select {
     font-size: 16px;
+    padding: 10px 12px;
   }
 
   /* Columnas DnD de promos: una sola en pantallas chicas */
@@ -525,23 +528,49 @@ button.admin-footer-trigger:focus-visible { outline: 1px solid rgba(255,255,255,
     grid-template-columns: 1fr;
   }
 
-  /* Touch targets mínimos para botones de lista */
+  /* ── Lista items: evitar desbordamiento horizontal ──────── */
+  /* En mobile los botones van a una segunda fila */
+  .admin-lista-item {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+  .admin-item-info {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .admin-item-actions {
+    flex: 0 0 100%;    /* segunda fila, ancho completo */
+    justify-content: flex-end;
+    gap: 6px;
+  }
   .admin-btn-edit,
   .admin-btn-toggle,
   .admin-btn-delete {
-    padding: 7px 14px !important;
-    font-size: 0.78rem !important;
-    min-height: 36px;
+    padding: 6px 12px !important;
+    font-size: 0.76rem !important;
+    min-height: 32px;
+    border-radius: 16px;
   }
 
-  /* Tabs más anchos para touch */
+  /* Topbar más compacta */
+  .amodal-topbar {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+  .amodal-topbar h3 { font-size: 1rem; }
+
+  /* Tabs touch-friendly */
+  .admin-inner-tabs { gap: 6px; margin-bottom: 14px; }
   .admin-inner-tab {
-    padding: 10px 20px;
-    font-size: 0.88rem;
+    padding: 9px 18px;
+    font-size: 0.85rem;
+    flex: 1;
+    text-align: center;
   }
 
   /* Botón primario más alto */
-  .amodal-btn-primary {
-    padding: 13px 22px;
-  }
+  .amodal-btn-primary { padding: 13px 22px; }
+
+  /* Topbar: ocultar label de logout en muy pequeño */
+  #admin-logout-btn { font-size: 0.75rem; padding: 4px 10px; }
 }

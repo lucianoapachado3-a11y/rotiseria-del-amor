@@ -235,26 +235,25 @@
 
   /* ── 8. SCROLL TRAPS — prevent Lenis eating wheel inside overlays ── */
   function initScrollTraps() {
-    // Non-passive capture listener: fires before Lenis, can call preventDefault()
-    // to fully own the scroll within modal containers.
+    // Non-passive capture: fires before Lenis, prevents its preventDefault call.
+    // We do NOT manually move scrollTop — the browser handles native scroll.
+    // Lenis is already stopped when these panels open, so this is a safety net.
     document.addEventListener('wheel', function (e) {
       var el = e.target.closest('.amodal-card, .cart-items, .order-modal-body');
       if (!el) return;
 
-      // Normalize deltaY across deltaMode values
       var delta = e.deltaY;
       if (e.deltaMode === 1) delta *= 32;
       if (e.deltaMode === 2) delta *= el.clientHeight;
 
-      var canDown = el.scrollTop < el.scrollHeight - el.clientHeight - 1;
+      var canDown = el.scrollTop < el.scrollHeight - el.clientHeight;
       var canUp   = el.scrollTop > 0;
 
       if ((delta > 0 && canDown) || (delta < 0 && canUp)) {
-        e.preventDefault();
+        // Block Lenis from calling preventDefault so native scroll works
         e.stopPropagation();
-        el.scrollTop += delta;
       }
-    }, { passive: false, capture: true });
+    }, { passive: true, capture: true });
   }
 
   /* ── INIT ALL ─────────────────────────────────────────── */
