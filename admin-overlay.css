@@ -154,6 +154,12 @@
   overscroll-behavior: contain;
   touch-action: pan-y;
   padding: 24px 30px 40px;
+  /* Esconder scrollbar visual mientras mantiene scroll funcional */
+  scrollbar-width: none;    /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.apanel-body::-webkit-scrollbar {
+  display: none;            /* Chrome/Safari/Edge Chromium */
 }
 
 /* ── FORM ────────────────────────────────────────────── */
