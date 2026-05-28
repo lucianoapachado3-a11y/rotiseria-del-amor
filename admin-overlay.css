@@ -29,6 +29,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   padding: 36px 32px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
   position: relative;
@@ -37,7 +38,6 @@
 
 .amodal-card--wide {
   max-width: 660px;
-  /* overflow-y:scroll (no auto) mejora compat iOS Safari */
   overflow-y: scroll;
 }
 

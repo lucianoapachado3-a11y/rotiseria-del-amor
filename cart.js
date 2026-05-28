@@ -32,12 +32,7 @@
   /* ── Sidebar open/close ──────────────────────────────── */
   function lockBodyScroll() {
     if (window.__lenis) window.__lenis.stop();
-    // Solo en desktop: body overflow:hidden para frenar scroll de página.
-    // En mobile (touch), saltear — iOS bloquea el scroll táctil de hijos
-    // cuando body tiene overflow:hidden; Lenis ya setea html overflow:hidden.
-    if (!('ontouchstart' in window)) {
-      document.body.style.overflow = 'hidden';
-    }
+    document.body.style.overflow = 'hidden';
   }
 
   function unlockBodyScroll() {
