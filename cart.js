@@ -30,6 +30,30 @@
   var orderModal, ticketEl, waBtn;
 
   /* ── Sidebar open/close ──────────────────────────────── */
+  function lockBodyScroll() {
+    var scrollY = window.scrollY;
+    document.body.dataset.lockScrollY = scrollY;
+    document.body.style.overflow  = 'hidden';
+    document.body.style.position  = 'fixed';
+    document.body.style.top       = '-' + scrollY + 'px';
+    document.body.style.width     = '100%';
+    if (window.__lenis) window.__lenis.stop();
+  }
+
+  function unlockBodyScroll() {
+    var scrollY = parseInt(document.body.dataset.lockScrollY || '0', 10);
+    document.body.style.overflow  = '';
+    document.body.style.position  = '';
+    document.body.style.top       = '';
+    document.body.style.width     = '';
+    if (window.__lenis) {
+      window.__lenis.start();
+      window.__lenis.scrollTo(scrollY, { immediate: true });
+    } else {
+      window.scrollTo(0, scrollY);
+    }
+  }
+
   function openCart() {
     if (!sidebar) return;
     sidebar.hidden = false;
@@ -38,8 +62,7 @@
       sidebar.classList.add('is-open');
       if (overlay) overlay.classList.add('is-open');
     });
-    document.body.style.overflow = 'hidden';
-    if (window.__lenis) window.__lenis.stop();
+    lockBodyScroll();
     var toggle = document.getElementById('cart-toggle');
     if (toggle) toggle.setAttribute('aria-expanded', 'true');
   }
@@ -48,8 +71,7 @@
     if (!sidebar) return;
     sidebar.classList.remove('is-open');
     if (overlay) overlay.classList.remove('is-open');
-    document.body.style.overflow = '';
-    if (window.__lenis) window.__lenis.start();
+    unlockBodyScroll();
     var toggle = document.getElementById('cart-toggle');
     if (toggle) toggle.setAttribute('aria-expanded', 'false');
     setTimeout(function () {

@@ -501,7 +501,43 @@ button.admin-footer-trigger:focus-visible { outline: 1px solid rgba(255,255,255,
     border-radius: 24px 24px 0 0;
     max-height: 92vh;
     padding: 26px 18px;
+    /* Momentum scrolling en iOS */
+    -webkit-overflow-scrolling: touch;
   }
   .aform-row { grid-template-columns: 1fr; }
   .admin-fab { bottom: 20px; left: 16px; padding: 10px 15px; }
+
+  /* Evitar auto-zoom de iOS en inputs del admin (font-size < 16px → zoom) */
+  .afield input[type="text"],
+  .afield input[type="email"],
+  .afield input[type="password"],
+  .afield input[type="number"],
+  .afield select {
+    font-size: 16px;
+  }
+
+  /* Columnas DnD de promos: una sola en pantallas chicas */
+  .admin-promo-dnd {
+    grid-template-columns: 1fr;
+  }
+
+  /* Touch targets mínimos para botones de lista */
+  .admin-btn-edit,
+  .admin-btn-toggle,
+  .admin-btn-delete {
+    padding: 7px 14px !important;
+    font-size: 0.78rem !important;
+    min-height: 36px;
+  }
+
+  /* Tabs más anchos para touch */
+  .admin-inner-tab {
+    padding: 10px 20px;
+    font-size: 0.88rem;
+  }
+
+  /* Botón primario más alto */
+  .amodal-btn-primary {
+    padding: 13px 22px;
+  }
 }

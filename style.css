@@ -1561,6 +1561,43 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   will-change: transform;
 }
 
+/* ── MOBILE SCROLL & TOUCH ─────────────────────────────── */
+/* Momentum scrolling en iOS para contenedores overflow */
+.cart-items,
+.order-modal-body {
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  /* Evitar auto-zoom de iOS cuando font-size < 16px en inputs */
+  .cart-mitad-dropdown,
+  .cart-salsa-dropdown {
+    font-size: 16px;
+  }
+
+  /* Touch targets mínimos para qty/remove del carrito */
+  .cart-qty-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+  .cart-remove-btn {
+    padding: 4px 10px;
+    font-size: 1.45rem;
+  }
+
+  /* Payment pills: zona de toque más alta */
+  .payment-pill span {
+    padding: 12px 10px;
+  }
+
+  /* Cart confirm button más alto en mobile */
+  .cart-confirm-btn {
+    padding: 16px 18px;
+    font-size: 1rem;
+  }
+}
+
 /* ── CART & UI ANIMATIONS ──────────────────────────────── */
 @keyframes cartItemIn {
   from { opacity: 0; transform: translateX(18px); }
@@ -2171,6 +2208,19 @@ body::after {
 
 @media (max-width: 480px) {
   .cart-sidebar { width: 100%; border-left: none; }
+}
+
+/* Safe-area para iPhones con notch (island) */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .cart-footer {
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+  .mobile-cta-bar {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  footer {
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+  }
 }
 
 /* ── ORDER MODAL ──────────────────────────────────────── */
