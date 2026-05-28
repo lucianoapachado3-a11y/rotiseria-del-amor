@@ -32,12 +32,26 @@
   /* ── Sidebar open/close ──────────────────────────────── */
   function lockBodyScroll() {
     if (window.__lenis) window.__lenis.stop();
+    var scrollY = window.scrollY;
+    document.body.dataset.lockY  = scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top      = '-' + scrollY + 'px';
+    document.body.style.width    = '100%';
     document.body.style.overflow = 'hidden';
   }
 
   function unlockBodyScroll() {
+    var scrollY = parseInt(document.body.dataset.lockY || '0', 10);
+    document.body.style.position = '';
+    document.body.style.top      = '';
+    document.body.style.width    = '';
     document.body.style.overflow = '';
-    if (window.__lenis) window.__lenis.start();
+    if (window.__lenis) {
+      window.__lenis.start();
+      window.__lenis.scrollTo(scrollY, { duration: 0 });
+    } else {
+      window.scrollTo(0, scrollY);
+    }
   }
 
   function openCart() {

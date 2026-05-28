@@ -3,7 +3,7 @@
 (function () {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = 'admin-overlay.css?v=20260537';
+  link.href = 'admin-overlay.css?v=20260538';
   document.head.appendChild(link);
 })();
 
@@ -43,12 +43,26 @@ adminFab.addEventListener('click', openPanel);
 
 function lockBodyScroll() {
   if (window.__lenis) window.__lenis.stop();
-  document.body.style.overflow = 'hidden';
+  const scrollY = window.scrollY;
+  document.body.dataset.lockY = scrollY;
+  document.body.style.position  = 'fixed';
+  document.body.style.top       = '-' + scrollY + 'px';
+  document.body.style.width     = '100%';
+  document.body.style.overflow  = 'hidden';
 }
 
 function unlockBodyScroll() {
-  document.body.style.overflow = '';
-  if (window.__lenis) window.__lenis.start();
+  const scrollY = parseInt(document.body.dataset.lockY || '0', 10);
+  document.body.style.position  = '';
+  document.body.style.top       = '';
+  document.body.style.width     = '';
+  document.body.style.overflow  = '';
+  if (window.__lenis) {
+    window.__lenis.start();
+    window.__lenis.scrollTo(scrollY, { duration: 0 });
+  } else {
+    window.scrollTo(0, scrollY);
+  }
 }
 
 function openLogin() {
