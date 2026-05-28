@@ -3,7 +3,7 @@
 (function () {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = 'admin-overlay.css?v=20260534';
+  link.href = 'admin-overlay.css?v=20260535';
   document.head.appendChild(link);
 })();
 
