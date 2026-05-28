@@ -498,77 +498,88 @@
 
   <!-- ADMIN: Panel modal -->
   <div id="admin-panel-modal" class="amodal-overlay" hidden>
-    <div class="amodal-card amodal-card--wide" role="dialog" aria-modal="true" aria-labelledby="ap-title">
-      <div class="amodal-topbar">
-        <h3 id="ap-title">Panel de administración</h3>
-        <button id="admin-logout-btn" class="amodal-btn-secondary amodal-btn-sm">Cerrar sesión</button>
-        <button class="amodal-close" id="admin-panel-close" aria-label="Cerrar">×</button>
+    <div class="apanel" role="dialog" aria-modal="true" aria-labelledby="ap-title">
+
+      <!-- Header fijo -->
+      <div class="apanel-header">
+        <h3 id="ap-title" class="apanel-title">Panel de administración</h3>
+        <button id="admin-logout-btn" class="apanel-logout-btn">Cerrar sesión</button>
+        <button class="apanel-close-btn" id="admin-panel-close" aria-label="Cerrar panel">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
-      <div class="admin-inner-tabs">
+
+      <!-- Tabs fijos -->
+      <div class="apanel-tabs">
         <button class="admin-inner-tab active" data-atab="agregar">Agregar plato</button>
         <button class="admin-inner-tab" data-atab="lista">Menú actual</button>
       </div>
 
-      <!-- Agregar / Editar -->
-      <div id="atab-agregar" class="admin-tab-panel">
-        <p id="admin-form-title" class="admin-form-subtitle">Nuevo plato</p>
-        <form id="admin-plato-form" class="admin-form" novalidate>
-          <div class="aform-row">
-            <div class="afield">
-              <label for="ap-nombre">Nombre *</label>
-              <input type="text" id="ap-nombre" placeholder="Ej: Napolitana" required />
-            </div>
-            <div class="afield">
-              <label for="ap-categoria">Categoría *</label>
-              <select id="ap-categoria" required>
-                <option value="clasicas">Pizzas Clásicas</option>
-                <option value="especiales">Pizzas Especiales</option>
-                <option value="compartir">Bandejas para Compartir</option>
-                <option value="salsas">Salsas</option>
-                <option value="promo">Promo</option>
-              </select>
-            </div>
-          </div>
-          <div class="afield" id="afield-descripcion">
-            <label for="ap-descripcion">Descripción / Ingredientes</label>
-            <input type="text" id="ap-descripcion" placeholder="Ej: Muzza, tomate, albahaca" />
-          </div>
-          <div class="afield" id="afield-componentes" hidden>
-            <label>Ítems que incluye</label>
-            <div id="ap-componentes-list" class="acomp-list"></div>
-          </div>
-          <div class="aform-row">
-            <div class="afield">
-              <label for="ap-precio">Precio (ARS) *</label>
-              <input type="number" id="ap-precio" placeholder="14000" min="0" required />
-            </div>
-            <div class="afield">
-              <label for="ap-badge">Badge <span class="ahint">(Especial, XL…)</span></label>
-              <input type="text" id="ap-badge" placeholder="Opcional" />
-            </div>
-          </div>
-          <div class="afield">
-            <label for="ap-icono">Ícono <span class="ahint">(solo bandejas)</span></label>
-            <input type="text" id="ap-icono" placeholder="🍟" maxlength="4" />
-          </div>
-          <div class="afield">
-            <label for="ap-imagen">Foto del plato</label>
-            <input type="file" id="ap-imagen" accept="image/*" />
-            <img id="admin-img-preview" class="admin-img-preview" hidden alt="Vista previa" />
-          </div>
-          <div class="aform-btns">
-            <button type="submit" class="amodal-btn-primary" id="admin-save-btn">Guardar plato</button>
-            <button type="button" class="amodal-btn-secondary" id="admin-cancel-btn" hidden>Cancelar</button>
-          </div>
-        </form>
-      </div>
+      <!-- Cuerpo scrolleable — flex:1 + min-height:0 garantiza scroll en iOS -->
+      <div class="apanel-body" id="apanel-body">
 
-      <!-- Lista -->
-      <div id="atab-lista" class="admin-tab-panel" hidden>
-        <div id="admin-lista-platos"></div>
-      </div>
-    </div>
-  </div>
+        <!-- Tab: Agregar / Editar -->
+        <div id="atab-agregar" class="admin-tab-panel">
+          <p id="admin-form-title" class="admin-form-subtitle">Nuevo plato</p>
+          <form id="admin-plato-form" class="admin-form" novalidate>
+            <div class="aform-row">
+              <div class="afield">
+                <label for="ap-nombre">Nombre *</label>
+                <input type="text" id="ap-nombre" placeholder="Ej: Napolitana" required />
+              </div>
+              <div class="afield">
+                <label for="ap-categoria">Categoría *</label>
+                <select id="ap-categoria" required>
+                  <option value="clasicas">Pizzas Clásicas</option>
+                  <option value="especiales">Pizzas Especiales</option>
+                  <option value="compartir">Bandejas para Compartir</option>
+                  <option value="salsas">Salsas</option>
+                  <option value="promo">Promo</option>
+                </select>
+              </div>
+            </div>
+            <div class="afield" id="afield-descripcion">
+              <label for="ap-descripcion">Descripción / Ingredientes</label>
+              <input type="text" id="ap-descripcion" placeholder="Ej: Muzza, tomate, albahaca" />
+            </div>
+            <div class="afield" id="afield-componentes" hidden>
+              <label>Ítems que incluye</label>
+              <div id="ap-componentes-list" class="acomp-list"></div>
+            </div>
+            <div class="aform-row">
+              <div class="afield">
+                <label for="ap-precio">Precio (ARS) *</label>
+                <input type="number" id="ap-precio" placeholder="14000" min="0" required />
+              </div>
+              <div class="afield">
+                <label for="ap-badge">Badge <span class="ahint">(Especial, XL…)</span></label>
+                <input type="text" id="ap-badge" placeholder="Opcional" />
+              </div>
+            </div>
+            <div class="afield">
+              <label for="ap-icono">Ícono <span class="ahint">(solo bandejas)</span></label>
+              <input type="text" id="ap-icono" placeholder="🍟" maxlength="4" />
+            </div>
+            <div class="afield">
+              <label for="ap-imagen">Foto del plato</label>
+              <input type="file" id="ap-imagen" accept="image/*" />
+              <img id="admin-img-preview" class="admin-img-preview" hidden alt="Vista previa" />
+            </div>
+            <div class="aform-btns">
+              <button type="submit" class="amodal-btn-primary" id="admin-save-btn">Guardar plato</button>
+              <button type="button" class="amodal-btn-secondary" id="admin-cancel-btn" hidden>Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tab: Menú actual -->
+        <div id="atab-lista" class="admin-tab-panel" hidden>
+          <div id="admin-lista-platos"></div>
+        </div>
+
+      </div><!-- /apanel-body -->
+    </div><!-- /apanel -->
+  </div><!-- /admin-panel-modal -->
   <script src="lib/gsap.min.js?v=20260526" defer></script>
   <script src="lib/ScrollTrigger.min.js?v=20260526" defer></script>
   <script src="lib/lenis.min.js?v=20260526" defer></script>
@@ -576,7 +587,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
   <script src="script.js?v=20260529" defer></script>
   <script src="cart.js?v=20260538" defer></script>
-  <script src="admin-embed.js?v=20260538" defer></script>
+  <script src="admin-embed.js?v=20260539" defer></script>
 
 </body>
 </html>

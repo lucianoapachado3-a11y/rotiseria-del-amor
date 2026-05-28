@@ -3,7 +3,7 @@
 (function () {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = 'admin-overlay.css?v=20260538';
+  link.href = 'admin-overlay.css?v=20260539';
   document.head.appendChild(link);
 })();
 
@@ -79,17 +79,12 @@ function closeLogin() {
 function openPanel() {
   panelModal.hidden = false;
   lockBodyScroll();
-  // Forzar estilos de scroll via JS: evita que el caché CSS bloquee el scroll
-  // y resuelve el bug iOS donde position:fixed children necesitan estilos inline
-  var card = panelModal.querySelector('.amodal-card');
-  if (card) {
-    card.style.overflowY = 'scroll';
-    card.style.webkitOverflowScrolling = 'touch';
-    card.style.touchAction = 'pan-y';
-    if (window.matchMedia('(max-width: 600px)').matches) {
-      card.style.height = '92vh';
-      card.style.maxHeight = '92vh';
-    }
+  // Forzar estilos inline en el scroll container como respaldo al CSS
+  var body = document.getElementById('apanel-body');
+  if (body) {
+    body.style.overflowY = 'scroll';
+    body.style.webkitOverflowScrolling = 'touch';
+    body.style.touchAction = 'pan-y';
   }
   loadAdminLista();
 }
