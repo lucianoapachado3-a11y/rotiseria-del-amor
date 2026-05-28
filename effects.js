@@ -239,7 +239,7 @@
     // We do NOT manually move scrollTop — the browser handles native scroll.
     // Lenis is already stopped when these panels open, so this is a safety net.
     document.addEventListener('wheel', function (e) {
-      var el = e.target.closest('.amodal-card, .cart-items, .order-modal-body');
+      var el = e.target.closest('.amodal-card, .apanel-body, .cart-items, .order-modal-body');
       if (!el) return;
 
       var delta = e.deltaY;
