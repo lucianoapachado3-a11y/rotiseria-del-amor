@@ -1447,6 +1447,8 @@ footer a { color: var(--dorado-claro); text-decoration: none; }
   }
   .wa-float { display: none; }
   body { padding-bottom: 58px; }
+  /* Ocultar sticky CTA cuando el carrito está abierto (evita superposición) */
+  body:has(.cart-sidebar.is-open) .mobile-cta-bar { display: none; }
 }
 
 /* ── EXTRA SMALL (480px) ── */
