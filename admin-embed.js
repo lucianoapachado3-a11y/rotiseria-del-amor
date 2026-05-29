@@ -3,7 +3,7 @@
 (function () {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = 'admin-overlay.css?v=20260539';
+  link.href = 'admin-overlay.css?v=20260544';
   document.head.appendChild(link);
 })();
 
@@ -353,7 +353,68 @@ function renderAdminPromoItem(p) {
 
 let draggedPromoId = null;
 
+async function movePromoToSeccion(promoId, newSeccion) {
+  const { error } = await sbA.from('platos').update({ seccion: newSeccion }).eq('id', promoId);
+  if (error) { alert('Error: ' + error.message); return; }
+  loadAdminLista();
+  if (typeof loadMenu === 'function') loadMenu();
+}
+
+function openPromoSectionPicker(handle, promoId, currentSeccion) {
+  document.querySelectorAll('.admin-dnd-picker').forEach(el => el.remove());
+  const picker = document.createElement('div');
+  picker.className = 'admin-dnd-picker';
+  picker.innerHTML = `
+    <span class="admin-dnd-picker-label">Mover a sección</span>
+    <button type="button" data-seccion="clasicas"${currentSeccion === 'clasicas' || !currentSeccion ? ' aria-current="true"' : ''}>Clásicas</button>
+    <button type="button" data-seccion="especiales"${currentSeccion === 'especiales' ? ' aria-current="true"' : ''}>Especiales</button>
+  `;
+  document.body.appendChild(picker);
+
+  const r = handle.getBoundingClientRect();
+  const pw = picker.offsetWidth;
+  let left = r.left;
+  if (left + pw > window.innerWidth - 12) left = window.innerWidth - pw - 12;
+  if (left < 12) left = 12;
+  picker.style.top  = (r.bottom + 8) + 'px';
+  picker.style.left = left + 'px';
+
+  picker.addEventListener('click', async ev => {
+    const btn = ev.target.closest('[data-seccion]');
+    if (!btn) return;
+    ev.stopPropagation();
+    const newSeccion = btn.dataset.seccion;
+    picker.remove();
+    if (newSeccion !== (currentSeccion || 'clasicas')) {
+      await movePromoToSeccion(promoId, newSeccion);
+    }
+  });
+
+  setTimeout(() => {
+    function closer(ev) {
+      if (!picker.contains(ev.target) && !ev.target.closest('.admin-dnd-handle')) {
+        picker.remove();
+        document.removeEventListener('click', closer, true);
+        document.removeEventListener('touchstart', closer, true);
+      }
+    }
+    document.addEventListener('click', closer, true);
+    document.addEventListener('touchstart', closer, true);
+  }, 0);
+}
+
 function initPromoDnD() {
+  // Tap en handle (mobile-friendly) — abre picker con secciones
+  listaDiv.addEventListener('click', e => {
+    const handle = e.target.closest('.admin-dnd-handle');
+    if (!handle) return;
+    e.stopPropagation();
+    const item = handle.closest('[data-promo-drag]');
+    if (!item) return;
+    const col = handle.closest('.admin-dnd-col');
+    openPromoSectionPicker(handle, item.dataset.promoDrag, col && col.dataset.seccion);
+  });
+
   listaDiv.addEventListener('dragstart', e => {
     const item = e.target.closest('[data-promo-drag]');
     if (!item) return;

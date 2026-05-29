@@ -80,7 +80,12 @@
       duration: 1.15,
       easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
       smoothWheel: true,
-      touchMultiplier: 1.5
+      touchMultiplier: 1.5,
+      // Sin esto Lenis intercepta touchmove en window y bloquea el scroll
+      // nativo (pan-y) dentro de modales y paneles scrolleables en mobile.
+      prevent: function (node) {
+        return !!(node && node.closest && node.closest('.amodal-overlay, .cart-items, .order-modal-body'));
+      }
     });
 
     // Integrate with GSAP ticker
