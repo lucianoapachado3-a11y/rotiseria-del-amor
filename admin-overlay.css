@@ -30,7 +30,7 @@
   --a-shadow-xl:     0 28px 70px -14px rgba(61,15,26,0.36), 0 10px 24px -8px rgba(61,15,26,0.18);
   --a-shadow-sm:     0 4px 14px -6px rgba(61,15,26,0.18);
   --a-ring:          0 0 0 3px rgba(196,54,74,0.16);
-  --a-font-display:  'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --a-font-display:  'Cinzel Decorative', 'Cinzel', Georgia, serif;
   --a-font-body:     'DM Sans', 'Helvetica Neue', system-ui, sans-serif;
   --a-ease:          cubic-bezier(.22,.61,.36,1);
 }

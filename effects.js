@@ -1,6 +1,6 @@
 /* effects.js — D'amoor premium effects
  * IIFE, no ES modules, no import/export
- * Load order: gsap → ScrollTrigger → lenis → effects.js
+ * Load order: gsap → lenis → effects.js
  */
 (function () {
   'use strict';
@@ -136,7 +136,7 @@
       my = e.clientY;
       dot.style.transform = 'translate(' + (mx - 4) + 'px,' + (my - 4) + 'px)';
       if (!ticking) { ticking = true; requestAnimationFrame(ringLoop); }
-    });
+    }, { passive: true });
 
     function ringLoop() {
       rx += (mx - rx) * RING_LERP;
@@ -153,14 +153,14 @@
     document.addEventListener('mouseover', function (e) {
       var t = e.target.closest('a,button,[data-magnetic]');
       if (t) root.classList.add('is-interactive');
-    });
+    }, { passive: true });
     document.addEventListener('mouseout', function (e) {
       var t = e.target.closest('a,button,[data-magnetic]');
       if (t) root.classList.remove('is-interactive');
-    });
+    }, { passive: true });
 
-    document.addEventListener('mouseenter', function () { root.style.opacity = '1'; });
-    document.addEventListener('mouseleave', function () { root.style.opacity = '0'; });
+    document.addEventListener('mouseenter', function () { root.style.opacity = '1'; }, { passive: true });
+    document.addEventListener('mouseleave', function () { root.style.opacity = '0'; }, { passive: true });
   }
 
   /* ── 4. MAGNETIC BUTTONS ─────────────────────────────── */
@@ -179,11 +179,11 @@
         tx = (e.clientX - r.left - r.width / 2) * STRENGTH;
         ty = (e.clientY - r.top - r.height / 2) * STRENGTH;
         if (!rafId) rafId = requestAnimationFrame(magnetLoop);
-      });
+      }, { passive: true });
 
       el.addEventListener('mouseleave', function () {
         tx = 0; ty = 0;
-      });
+      }, { passive: true });
 
       function magnetLoop() {
         cx += (tx - cx) * LERP;
@@ -210,30 +210,34 @@
     wrap.addEventListener('mouseleave', function () { ticker.style.animationPlayState = 'running'; });
   }
 
-  /* ── 6. GSAP SCROLLTRIGGER REVEALS ───────────────────── */
-  function initScrollTrigger() {
-    if (!window.gsap || !window.ScrollTrigger) return;
-    gsap.registerPlugin(ScrollTrigger);
+  /* ── 6. SCROLL REVEALS (IntersectionObserver, no ScrollTrigger) ── */
+  function initScrollReveals() {
+    if (!('IntersectionObserver' in window)) return;
 
-    // Specialty cards stagger
-    var cards = document.querySelectorAll('.pizza-card');
-    if (cards.length) {
-      gsap.from(cards, {
-        scrollTrigger: { trigger: cards[0].closest('section') || cards[0].parentElement, start: 'top 82%' },
-        opacity: 0, y: 30, stagger: 0.09, duration: 0.55, ease: 'power2.out',
-        clearProps: 'all'
+    function stagger(selector, baseDelay) {
+      var els = document.querySelectorAll(selector);
+      if (!els.length) return;
+      els.forEach(function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(28px)';
+        el.style.willChange = 'opacity, transform';
       });
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry, i) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          var delay = (i * 0.08) + (baseDelay || 0);
+          el.style.transition = 'opacity 0.55s cubic-bezier(.2,.7,.3,1) ' + delay + 's, transform 0.55s cubic-bezier(.2,.7,.3,1) ' + delay + 's';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          io.unobserve(el);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+      els.forEach(function (el) { io.observe(el); });
     }
 
-    // Testimonials stagger
-    var testimonials = document.querySelectorAll('.compartir-card');
-    if (testimonials.length) {
-      gsap.from(testimonials, {
-        scrollTrigger: { trigger: testimonials[0].closest('section') || testimonials[0].parentElement, start: 'top 82%' },
-        opacity: 0, y: 24, stagger: 0.1, duration: 0.5, ease: 'power2.out',
-        clearProps: 'all'
-      });
-    }
+    stagger('.pizza-card', 0);
+    stagger('.compartir-card', 0);
   }
 
   /* ── 7. SCROLL PROGRESS (already in script.js, no-op) ── */
@@ -268,7 +272,7 @@
     safe(initCursor, 'cursor');
     safe(initMagnetic, 'magnetic');
     safe(initTicker, 'ticker');
-    safe(initScrollTrigger, 'scrolltrigger');
+    safe(initScrollReveals, 'scrollreveals');
     safe(initScrollTraps, 'scrolltraps');
   });
 
