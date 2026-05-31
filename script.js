@@ -16,7 +16,7 @@ function escapeHtml(str) {
 
 function renderPizzaCard(p) {
   const img   = p.imagen_url
-    ? `<img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="300" height="180" loading="lazy">`
+    ? `<img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="400" height="280" loading="lazy">`
     : `<div class="pizza-placeholder" aria-hidden="true">🍕</div>`;
   const badge  = p.badge ? `<span class="pizza-badge">${escapeHtml(p.badge)}</span>` : '';
   const precio = (p.precio ?? 0).toLocaleString('es-AR');
@@ -28,7 +28,7 @@ function renderPizzaCard(p) {
         </button>
         <div class="pizza-desc-wrap"><div class="pizza-desc">${escapeHtml(p.descripcion)}</div></div>
         <div class="pizza-footer">
-          <div class="pizza-price">$${precio}</div>
+          <div class="pizza-price"><span>$</span>${precio}</div>
           <button class="pizza-order-btn" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}" data-categoria="pizza">Agregar +</button>
         </div>
       </div>
@@ -53,9 +53,13 @@ function renderPromoCard(p) {
 
 function renderSalsaCard(p) {
   const img  = p.imagen_url
-    ? `<img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="300" height="180" loading="lazy">`
+    ? `<img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="400" height="280" loading="lazy">`
     : `<div class="pizza-placeholder" aria-hidden="true">🧄</div>`;
   const badge = p.badge ? `<span class="pizza-badge">${escapeHtml(p.badge)}</span>` : '';
+  const precio = (p.precio ?? 0).toLocaleString('es-AR');
+  const priceBlock = p.precio
+    ? `<div class="pizza-footer"><div class="pizza-price"><span>$</span>${precio}</div><span class="salsa-footer-note">Agregalo al pedido de tu pizza</span></div>`
+    : `<div class="salsa-footer-note">Agregalo al pedido de tu pizza</div>`;
   return `<article class="pizza-card" data-salsa-nombre="${escapeHtml(p.nombre)}">
       <div class="pizza-card-img">${img}${badge}</div>
       <div class="pizza-card-body">
@@ -63,12 +67,27 @@ function renderSalsaCard(p) {
           <span class="pizza-name">${escapeHtml(p.nombre)}</span>${ARROW}
         </button>
         <div class="pizza-desc-wrap"><div class="pizza-desc">${escapeHtml(p.descripcion)}</div></div>
+        ${priceBlock}
       </div>
     </article>`;
 }
 
 function renderCompartirCard(p) {
   const precio = (p.precio ?? 0).toLocaleString('es-AR');
+  if (p.imagen_url) {
+    return `<div class="compartir-card has-img">
+        <div class="compartir-img"><img src="${p.imagen_url}" alt="${escapeHtml(p.nombre)}" width="400" height="200" loading="lazy"></div>
+        <div class="compartir-body">
+          <button class="pizza-toggle" aria-expanded="false" aria-label="Ver detalle de ${escapeHtml(p.nombre)}">
+            <span class="compartir-title">${escapeHtml(p.nombre)}</span>${ARROW}
+          </button>
+          <div class="pizza-desc-wrap"><div class="pizza-desc">${escapeHtml(p.descripcion)}</div></div>
+          <p>Para compartir entre 4</p>
+          <div class="price">$${precio}</div>
+          <button class="pizza-order-btn" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}">Agregar +</button>
+        </div>
+      </div>`;
+  }
   return `<div class="compartir-card">
       <div class="icon" aria-hidden="true">${p.icono || '🍽️'}</div>
       <button class="pizza-toggle" aria-expanded="false" aria-label="Ver detalle de ${escapeHtml(p.nombre)}">
@@ -79,6 +98,49 @@ function renderCompartirCard(p) {
       <div class="price">$${precio}</div>
       <button class="pizza-order-btn" data-add-cart data-nombre="${escapeHtml(p.nombre)}" data-precio="${p.precio ?? 0}">Agregar +</button>
     </div>`;
+}
+
+/* Empty state mejor estilizado por categoría */
+function emptyState(categoria) {
+  const icons = { clasicas: '🍕', especiales: '✨', compartir: '🍽️', salsas: '🧄' };
+  return `<div class="menu-empty">
+    <span class="menu-empty-icon" aria-hidden="true">${icons[categoria] || '🍕'}</span>
+    <div class="menu-empty-title">Pronto en el horno</div>
+    <div class="menu-empty-sub">Estamos preparando opciones nuevas para esta sección.</div>
+  </div>`;
+}
+
+/* Post-render: oculta el arrow del toggle si la descripción no overflowea
+   las 2 líneas (no hay nada para expandir, el arrow sería frustrante). */
+function tagOverflowCards(container) {
+  container.querySelectorAll('.pizza-card, .compartir-card').forEach(card => {
+    const desc = card.querySelector('.pizza-desc');
+    if (!desc) return;
+    /* Forzamos un reflow tras los rAFs de revealCards. */
+    requestAnimationFrame(() => {
+      const overflows = desc.scrollHeight > desc.clientHeight + 1;
+      if (!overflows) card.classList.add('no-overflow');
+    });
+  });
+}
+
+/* Actualiza los contadores de cada tab según la cantidad real de items */
+function updateTabCounts(counts) {
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
+    const cat = btn.dataset.tab;
+    const n = counts[cat] || 0;
+    let span = btn.querySelector('.tab-count');
+    if (n > 0) {
+      if (!span) {
+        span = document.createElement('span');
+        span.className = 'tab-count';
+        btn.appendChild(span);
+      }
+      span.textContent = '· ' + n;
+    } else if (span) {
+      span.remove();
+    }
+  });
 }
 
 function setContent(el, html) {
@@ -98,8 +160,7 @@ async function loadMenu() {
     .order('orden')
     .order('created_at');
 
-  const empty = '<p style="text-align:center;padding:40px;color:#9A7055">No hay platos disponibles</p>';
-  const err   = '<p style="text-align:center;padding:40px;color:#C8242A">Error al cargar el menú. Intentá recargar la página.</p>';
+  const err = '<div class="menu-error">Error al cargar el menú. Intentá recargar la página.</div>';
 
   if (error) {
     setContent(document.querySelector('#tab-clasicas .pizza-grid'), err);
@@ -115,10 +176,17 @@ async function loadMenu() {
   const salsas     = data.filter(p => p.categoria === 'salsas');
   const promos     = data.filter(p => p.categoria === 'promo');
 
-  setContent(document.querySelector('#tab-clasicas .pizza-grid'),      clasicas.length   ? clasicas.map(renderPizzaCard).join('')      : empty);
-  setContent(document.querySelector('#tab-especiales .pizza-grid'),    especiales.length ? especiales.map(renderPizzaCard).join('')    : empty);
-  setContent(document.querySelector('#tab-compartir .compartir-grid'), compartir.length  ? compartir.map(renderCompartirCard).join('') : empty);
-  setContent(document.querySelector('#tab-salsas .pizza-grid'),        salsas.length     ? salsas.map(renderSalsaCard).join('')        : empty);
+  setContent(document.querySelector('#tab-clasicas .pizza-grid'),      clasicas.length   ? clasicas.map(renderPizzaCard).join('')      : emptyState('clasicas'));
+  setContent(document.querySelector('#tab-especiales .pizza-grid'),    especiales.length ? especiales.map(renderPizzaCard).join('')    : emptyState('especiales'));
+  setContent(document.querySelector('#tab-compartir .compartir-grid'), compartir.length  ? compartir.map(renderCompartirCard).join('') : emptyState('compartir'));
+  setContent(document.querySelector('#tab-salsas .pizza-grid'),        salsas.length     ? salsas.map(renderSalsaCard).join('')        : emptyState('salsas'));
+
+  updateTabCounts({
+    clasicas:   clasicas.length,
+    especiales: especiales.length,
+    compartir:  compartir.length,
+    salsas:     salsas.length,
+  });
 
   window.__menuPromos = promos; // expose for cart promo detection
 
@@ -154,6 +222,12 @@ function revealCards(panel) {
       el.style.transform  = 'translateY(0)';
     }));
   });
+  /* Detectar overflow de las descripciones y ocultar arrow donde no hay nada para expandir.
+     Lo hacemos también con un delay para que se rechequee tras carga de fuentes web. */
+  tagOverflowCards(panel);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => tagOverflowCards(panel));
+  }
 }
 
 function showTab(name, btn) {
